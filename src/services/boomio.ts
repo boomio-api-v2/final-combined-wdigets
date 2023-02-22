@@ -8,17 +8,23 @@ import {
   startPenguinWidget,
 } from '@/widgets';
 
+interface IExtraData {
+  go_hunt: string;
+  ev_type?: string;
+  signal_code?: string;
+}
+
 import { localStorageService, widgetHtmlService, UserService } from '@/services';
 
 class BoomioService extends UserService {
+  private current_page_url: string = window.location.href;
   constructor() {
     super();
-    this.current_page_url = window.location.href;
     this.setInitialConfiguration();
   }
 
   loadWidget = (widget_type = 'puzzle') => {
-    const createWidgetMap = {
+    const createWidgetMap: { [key: string]: () => void } = {
       puzzle: startPuzzleWidget,
       wheel: startWheelWidget,
       start_widget: startStartWidget,
@@ -34,11 +40,20 @@ class BoomioService extends UserService {
     try {
       window.onload = async () => {
         widgetHtmlService.createWidgetContainer();
-        const content = await this.send({ go_hunt: 'true' });
-        localStorageService.setConfigFromApi(content);
-        if (content?.widget_type && content.instruction !== 'stop') {
-          this.loadWidget(content.widget_type);
-        }
+        localStorageService.setConfigFromApi({
+          success: true,
+          widget_type: 'puzzle',
+          puzzles_collected: 3,
+          appearing_puzzle_nr: 4,
+          instruction: 'stop',
+          stop_for_sec: 60,
+        });
+        this.loadWidget('puzzle');
+        // const content: Partial<ILocalStorageConfig> = await this.send({ go_hunt: 'true' });
+        // localStorageService.setConfigFromApi(content);
+        // if (content?.widget_type && content.instruction !== 'stop') {
+        //   this.loadWidget(content.widget_type);
+        // }
       };
     } catch (err) {
       console.log(err);
@@ -46,7 +61,7 @@ class BoomioService extends UserService {
   }
 
   checkIsRequestDenied() {
-    const { boomioStopTill } = localStorageService?.config;
+    const { boomioStopTill } = localStorageService.config;
     if (!boomioStopTill) return false;
     const isTimeout = new Date(boomioStopTill).getTime() > new Date().getTime();
     if (!isTimeout) {
@@ -55,7 +70,7 @@ class BoomioService extends UserService {
     return isTimeout;
   }
 
-  send(extra_data) {
+  send(extra_data: IExtraData) {
     const isDenied = this.checkIsRequestDenied();
     if (isDenied) return { success: false };
     const { user_session, current_page_url } = this;
@@ -66,7 +81,7 @@ class BoomioService extends UserService {
     };
 
     return new Promise(async (resolve) => {
-      const rawResponse = await fetch(newLinkBoomio, {
+      const rawResponse = await fetch(newLinkBoomio as string, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +92,7 @@ class BoomioService extends UserService {
     });
   }
 
-  signal(signal_code) {
+  signal(signal_code: string) {
     this.send({
       go_hunt: 'true',
       ev_type: 'signal',

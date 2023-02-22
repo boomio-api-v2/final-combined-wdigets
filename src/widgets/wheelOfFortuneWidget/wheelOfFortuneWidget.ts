@@ -11,8 +11,19 @@ import { defaultList } from './constants';
 import './styles.css';
 
 class WheelOfFortuneWidget {
+  private friction = 0.991;
+  private angVelMin = 0.002;
+  private angVelMax = 0;
+  private angVel = 0;
+  private ang = 0;
+  private PI = Math.PI;
+  private isSpinning = false;
+  private isAccelerating = false;
+  private config = localStorageService.getDefaultConfig();
+  private elSpin: HTMLElement;
+  private ctx: HTMLCanvasElement;
+
   constructor() {
-    this.config = localStorageService.getDefaultConfig();
     if (!this.config.success) return;
     this.createWheel();
     this.elSpin = document.querySelector('#spin');
@@ -21,16 +32,9 @@ class WheelOfFortuneWidget {
     this.tot = this.config?.list?.length ?? 0;
     this.dia = this.ctx.canvas.width;
     this.rad = this.dia / 2;
-    this.PI = Math.PI;
     this.TAU = 2 * this.PI;
     this.arc = this.TAU / (this.config?.list?.length ?? 0);
-    this.friction = 0.991;
-    this.angVelMin = 0.002;
-    this.angVelMax = 0;
-    this.angVel = 0;
-    this.ang = 0;
-    this.isSpinning = false;
-    this.isAccelerating = false;
+
     this.elSpin.addEventListener('click', () => {
       boomioService.signal('SPIN');
       if (this.isSpinning) return;

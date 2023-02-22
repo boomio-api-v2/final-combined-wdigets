@@ -7,11 +7,16 @@ const defaultProps = {
   size: 100,
   parent: widgetHtmlService.container,
   styles: {},
+  elem: document.createElement('div'),
 };
 
-const getPosition = (size) => parseInt(getRandomArbitrary(10, size - 250).toFixed(), 10);
+const getPosition = (size: number) => parseInt(getRandomArbitrary(10, size - 250).toFixed(), 10);
 
 export default class AnimationService {
+  public animationEl: HTMLElement;
+  private posx: number;
+  private posy: number;
+
   constructor({
     posx,
     posy,
@@ -40,10 +45,10 @@ export default class AnimationService {
     assignStyleOnElement(elem.style, styles);
 
     const initialPosition = {
-      x: elem.clientWidth + parseInt(this.posy, 10),
-      nx: -1 * (elem.clientWidth + parseInt(this.posy, 10)),
-      y: elem.clientHeight + parseInt(this.posx, 10),
-      ny: -1 * (elem.clientHeight + parseInt(this.posx, 10)),
+      x: elem.clientWidth + this.posy,
+      nx: -1 * (elem.clientWidth + this.posy),
+      y: elem.clientHeight + this.posx,
+      ny: -1 * (elem.clientHeight + this.posx),
     };
 
     const css = `
@@ -161,8 +166,8 @@ export default class AnimationService {
     document.getElementById('boomio--stylesheet')?.remove();
   }
 
-  getAnimateFunction = (nr) => {
-    const animate = (animation) => (el) => {
+  getAnimateFunction = (nr: number) => {
+    const animate = (animation: string) => (el: HTMLElement) => {
       el.classList.add(`boomio--animation--${animation}`);
     };
     const animArr = [

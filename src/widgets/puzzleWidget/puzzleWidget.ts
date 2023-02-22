@@ -9,23 +9,19 @@ import {
 import { closeImage, frameSvg, puzzleIconsList } from '@/сonstants/icons';
 import { isMobileDevice } from '@/config';
 import { getRandomArbitrary, assignStyleOnElement } from '@/utlis';
-import {
-  puzzlesCoordinateForDesktop,
-  puzzlesCoordinateForMobile,
-  puzzlesCoordinate,
-  puzzleWidgetSize,
-} from './constants';
+import { puzzlesCoordinateForDesktop, puzzlesCoordinate, puzzleWidgetSize } from './constants';
+import { IPuzzleCoordinate } from '@/widgets/puzzleWidget/types';
 /// ///// Services ////////
 
 /// /////Puzzle Class ////////////
 export class Puzzle {
-  constructor() {
-    this.mainContainer = widgetHtmlService.container;
-
-    this.animationEl = null;
-    this.isPrewiewDisplayed = false;
-    this.coordinates = isMobileDevice ? puzzlesCoordinateForMobile : puzzlesCoordinateForDesktop;
-  }
+  private mainContainer: HTMLElement = widgetHtmlService.container;
+  private animationEl: null | HTMLElement = null;
+  private isPrewiewDisplayed: boolean;
+  private puzzleWidget: null | HTMLElement = null;
+  private modalBackground: null | HTMLElement = null;
+  private modal?: null | HTMLElement = null;
+  private coordinates: IPuzzleCoordinate[] = puzzlesCoordinate;
 
   addImageTPuzzleWidget = () => {
     this.puzzleWidget.style.backgroundImage = `url(${frameSvg})`;
@@ -124,7 +120,7 @@ export class Puzzle {
     /// /////////////////////////
   };
 
-  getCloseModalBtn = (closeCallback) => {
+  getCloseModalBtn = (closeCallback: () => void) => {
     const closeBtnWrapper = document.createElement('div');
     closeBtnWrapper.classList.add('close-modal-btn-wrapper');
     const closeBtn = document.createElement('img');
@@ -135,7 +131,7 @@ export class Puzzle {
     return closeBtnWrapper;
   };
 
-  closeAnimation = (callback) => () => {
+  closeAnimation = (callback: () => void) => () => {
     assignStyleOnElement(this.modal.style, {
       transformOrigin: '100% 100%',
       transform: 'scale(0)',
@@ -238,15 +234,19 @@ export class Puzzle {
     }, 2000);
   };
 
-  onPuzzleClick = (e) => {
-    const puzzle = e.target;
+  onPuzzleClick = (e: Event) => {
+    const puzzle = e.target as HTMLElement;
     puzzle.remove();
     this.isPrewiewDisplayed = false;
     this.showModalWidgetPreview(true);
   };
 
-  startAnimation = (...args) => {
-    const [coordinates, styles = {}, parent = this.mainContainer, isClickable = true] = args;
+  startAnimation = (
+    coordinates?: IPuzzleCoordinate[],
+    styles = {},
+    parent = this.mainContainer,
+    isClickable = true,
+  ) => {
     const { qrcode, puzzles_collected } = localStorageService.config;
     const defaultCoordinates = this.coordinates[puzzles_collected];
 
@@ -305,7 +305,7 @@ export class Puzzle {
     this.modalBackground.remove();
   };
 
-  addCloseIconToElement = (element) => {
+  addCloseIconToElement = (element: HTMLElement) => {
     const closeBtn = document.createElement('div');
     closeBtn.classList.add('custom-close-icon');
     closeBtn.innerHTML = '&#x2715; ';
@@ -326,7 +326,7 @@ export class Puzzle {
   disableWidgetAndRemoveAllElements = () => {
     boomioService.signal('PUZZLE_CLOSED');
     this.puzzleWidget.remove();
-    this.animationEl.remove();
+    this.animationEl?.remove();
   };
 }
 /// /////////////////////////

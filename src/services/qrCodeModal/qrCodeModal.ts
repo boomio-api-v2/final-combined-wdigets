@@ -12,8 +12,10 @@ const disLikeBtnImage =
   'https://raw.githubusercontent.com/boomio-api-v2/final-combined-wdigets-1/985a91f0065a9dbca7375cdbac92c24d88508c2b/images/dislike.svg';
 
 export default class QrCodeModal {
+  private mainContainer: HTMLElement = widgetHtmlService.container;
+  private modal: null | HTMLElement = null;
+  private modalBackground: null | HTMLElement = null;
   constructor() {
-    this.mainContainer = widgetHtmlService.container;
     this.showQrCode();
     this.showWinningAnimation();
   }
@@ -34,7 +36,7 @@ export default class QrCodeModal {
     isMobileDevice ? this.showQRCodeMobile() : this.showQRDesktop();
   };
 
-  closeAnimation = (callback) => () => {
+  closeAnimation = (callback: () => void) => () => {
     assignStyleOnElement(this.modal.style, {
       transformOrigin: '100% 100%',
       transform: 'scale(0)',
@@ -118,7 +120,7 @@ export default class QrCodeModal {
     this.modal.appendChild(buttonContainer);
   };
 
-  getCloseModalBtn = (closeCallback) => {
+  getCloseModalBtn = (closeCallback: () => void) => {
     const closeBtnWrapper = document.createElement('div');
     closeBtnWrapper.classList.add('close-modal-btn-wrapper');
     const closeBtn = document.createElement('img');
@@ -129,7 +131,7 @@ export default class QrCodeModal {
     return closeBtnWrapper;
   };
 
-  onModalClickBtnWithCommand = (command) => () => {
+  onModalClickBtnWithCommand = (command: string) => () => {
     boomioService.signal(command);
     this.closeModal();
   };

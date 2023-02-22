@@ -4,7 +4,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: './src/app.js',
+  entry: './src/app.ts',
   plugins: [new ESLintPlugin()],
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -12,12 +12,18 @@ module.exports = {
     publicPath: 'public/',
   },
   resolve: {
+    extensions: ['.ts', '.js'],
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
   },
   module: {
     rules: [
+      {
+        test: /\.ts?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],

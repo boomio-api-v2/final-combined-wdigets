@@ -8,14 +8,18 @@ const defaultArguments = {
 };
 
 export class DragElement {
-  constructor(elmnt, { x_position = null, y_position = null } = defaultArguments) {
+  private pos1 = 0;
+  private pos2 = 0;
+  private pos3 = 0;
+  private pos4 = 0;
+  private elmnt: HTMLElement;
+  private x_position: number;
+  private y_position: number;
+
+  constructor(elmnt: HTMLElement, { x_position = null, y_position = null } = defaultArguments) {
     this.x_position = x_position;
     this.y_position = y_position;
     this.elmnt = elmnt;
-    this.pos1 = 0;
-    this.pos2 = 0;
-    this.pos3 = 0;
-    this.pos4 = 0;
 
     if (isMobileDevice) {
       this.addMobileListener();
@@ -53,7 +57,7 @@ export class DragElement {
     });
     this.elmnt.addEventListener('touchstart', (e) => {
       const { clientX, clientY } = e.touches[0];
-      const { left, top } = e.target.getBoundingClientRect();
+      const { left, top } = (e.target as HTMLElement).getBoundingClientRect();
       mobileX = clientX - left - 10;
       mobileY = clientY - top - 10;
     });
@@ -93,7 +97,7 @@ export class DragElement {
     });
   };
 
-  dragMouseDown = (e) => {
+  dragMouseDown = (e: MouseEvent) => {
     e = e || window.event;
     e.stopImmediatePropagation();
     e.stopPropagation();

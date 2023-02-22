@@ -1,6 +1,8 @@
 import { localStoragePropertyName } from '@/config';
+import { ILocalStorageConfig } from '@/types';
 
 class LocalStorageService {
+  public config: ILocalStorageConfig;
   constructor() {
     this.clearStorage();
     this.config = this.getDefaultConfig();
@@ -10,14 +12,14 @@ class LocalStorageService {
     localStorage.removeItem(localStoragePropertyName);
   }
 
-  сheckOnInstruction(content) {
+  сheckOnInstruction(content: Partial<ILocalStorageConfig>) {
     if (content?.instruction === 'stop') {
       const boomioStopTill = new Date(new Date().getTime() + 1000 * content.stop_for_sec);
       this.updateConfig({ boomioStopTill });
     }
   }
 
-  removeByKey(key) {
+  removeByKey(key: keyof typeof this.config) {
     delete this.config[key];
     this.setInStorage();
   }
@@ -27,12 +29,12 @@ class LocalStorageService {
     localStorage.setItem(localStoragePropertyName, objToString);
   }
 
-  updateConfig(property) {
+  updateConfig(property: Partial<ILocalStorageConfig>) {
     this.config = { ...this.config, ...property };
     this.setInStorage();
   }
 
-  setConfigFromApi(content) {
+  setConfigFromApi(content: Partial<ILocalStorageConfig>) {
     const defaultValues = this.getDefaultConfig();
     this.config = {
       x_position: this.config?.x_position ?? null,
@@ -44,7 +46,7 @@ class LocalStorageService {
     this.сheckOnInstruction(content);
   }
 
-  getDefaultConfig() {
+  getDefaultConfig(): ILocalStorageConfig {
     const localStorageService = localStorage.getItem(localStoragePropertyName);
     const config = JSON.parse(localStorageService);
 

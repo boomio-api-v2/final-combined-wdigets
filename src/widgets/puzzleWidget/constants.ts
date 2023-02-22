@@ -1,6 +1,7 @@
 import { isMobileDevice } from '@/config';
+import { IPuzzleCoordinate } from './types';
 
-export const puzzlesCoordinateForMobile = [
+export const puzzlesCoordinateForMobile: IPuzzleCoordinate[] = [
   {
     top: -1,
     left: 1,
@@ -27,7 +28,7 @@ export const puzzlesCoordinateForMobile = [
   },
 ];
 
-export const puzzlesCoordinateForDesktop = [
+export const puzzlesCoordinateForDesktop: IPuzzleCoordinate[] = [
   {
     top: 0,
     left: 3,

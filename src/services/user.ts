@@ -1,4 +1,5 @@
 class UserService {
+  public user_session: string;
   constructor() {
     this.user_session = this.session();
   }
@@ -11,7 +12,7 @@ class UserService {
     return session;
   }
 
-  setCookie(name, value, days) {
+  setCookie(name: string, value: string, days: number) {
     let expires = '';
     if (days) {
       const date = new Date();
@@ -21,7 +22,7 @@ class UserService {
     document.cookie = `${name}=${value || ''}${expires}; path=/`;
   }
 
-  getCookie(name) {
+  getCookie(name: string) {
     const nameEQ = `${name}=`;
     const ca = document.cookie.split(';');
     for (let i = 0; i < ca.length; i++) {

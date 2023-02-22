@@ -15,8 +15,10 @@ import { stoneBlocks } from './сonstants';
 loadImageBeforeUsing([expolosionOneImage, expolosionTwoImage, expolosionThreeImage, cloudImage]);
 
 class StoneWidget {
+  private activeBlocks = 0;
+  private stoneContainer: null | HTMLElement = null;
+
   constructor() {
-    this.activeBlocks = 0;
     this.createContainer();
     this.createClosedChestImage();
   }
@@ -52,8 +54,8 @@ class StoneWidget {
       image.src = img;
     };
 
-  onBlockClick = (e) => {
-    const elem = e.target;
+  onBlockClick = (e: Event) => {
+    const elem = e.target as HTMLElement;
     if (!elem.classList.contains('block')) return;
     const animationFunc = this.animateBlock(e);
     animationFunc({

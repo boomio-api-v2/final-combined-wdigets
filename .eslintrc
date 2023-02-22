@@ -2,9 +2,13 @@
   "parserOptions": {
     "requireConfigFile": false
   },
-  "parser": "@babel/eslint-parser",
-  "extends": [],
-  "plugins": ["unused-imports"],
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": ["unused-imports", "@typescript-eslint"],
   "env": {
     "browser": true
   },
