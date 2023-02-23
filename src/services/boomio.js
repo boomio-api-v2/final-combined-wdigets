@@ -9,6 +9,7 @@ import {
 } from '@/widgets';
 
 import { localStorageService, widgetHtmlService, UserService } from '@/services';
+import { startCratesWidget } from '@/widgets/cratesWidget';
 
 class BoomioService extends UserService {
   constructor() {
@@ -26,6 +27,7 @@ class BoomioService extends UserService {
       stone: startStoneWidget,
       ice: iceWidget,
       penguin: startPenguinWidget,
+      crates: startCratesWidget,
     };
     createWidgetMap[widget_type]();
   };
@@ -34,11 +36,16 @@ class BoomioService extends UserService {
     try {
       window.onload = async () => {
         widgetHtmlService.createWidgetContainer();
-        const content = await this.send({ go_hunt: 'true' });
-        localStorageService.setConfigFromApi(content);
-        if (content?.widget_type && content.instruction !== 'stop') {
-          this.loadWidget(content.widget_type);
-        }
+        localStorageService.setConfigFromApi({
+          success: true,
+          widget_type: 'crates',
+        });
+        this.loadWidget('crates');
+        // const content = await this.send({ go_hunt: 'true' });
+        // localStorageService.setConfigFromApi(content);
+        // if (content?.widget_type && content.instruction !== 'stop') {
+        //   this.loadWidget(content.widget_type);
+        // }
       };
     } catch (err) {
       console.log(err);
