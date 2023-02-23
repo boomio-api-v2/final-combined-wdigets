@@ -1,13 +1,22 @@
+import { isMobileDevice } from '@/config';
 import { AnimationService, DragElement, QrCodeModal } from '@/services';
 import { assignStyleOnElement } from '@/utlis';
-import { iceBackgroundImage, penguinParams, iceBlocksParams, iceExplosionImage } from './constants';
 import { iceHammerImage } from '@/сonstants';
+
+import { iceBackgroundImage, penguinParams, iceBlocksParams, iceExplosionImage } from './constants';
+
+import type { IPenguinWidgetBlockParams } from './types';
+import type { IDraggeble } from '@/types';
+
 import './styles.css';
-import { isMobileDevice } from '@/config';
 
 class PenguinWidget {
+  private crushedIce = 0;
+  private iceBackground: HTMLElement;
+  private hammer: HTMLElement;
+  private widget: HTMLElement;
+  private draggeble: IDraggeble;
   constructor() {
-    this.cushedIce = 0;
     this.start();
   }
 
@@ -32,14 +41,14 @@ class PenguinWidget {
     this.addHammerToCursor();
     this.renderBlocksFromArray(penguinParams, 'penguin');
     this.renderBlocksFromArray(iceBlocksParams, 'ice-block', this.onIceBlockClick);
-    widget.onclick = this.onIceBlockClick;
+    // widget.onclick = this.onIceBlockClick;
   }
 
-  onIceBlockClick = (idx) => (e) => {
+  onIceBlockClick = (idx: number) => (e: Event) => {
     this.showHammerAnimation();
-    this.cushedIce++;
+    this.crushedIce++;
 
-    const elem = e.target;
+    const elem = e.target as HTMLImageElement;
     if (!elem.classList.contains('ice-block')) return;
     elem.src = iceExplosionImage;
     const { fruitImg, moveX, moveY } = iceBlocksParams[idx];
@@ -52,14 +61,10 @@ class PenguinWidget {
       });
 
       setTimeout(() => {
-        assignStyleOnElement(
-          elem.style,
-          {
-            left: `${moveX}px`,
-            top: `${moveY}px`,
-          },
-          100,
-        );
+        assignStyleOnElement(elem.style, {
+          left: `${moveX}px`,
+          top: `${moveY}px`,
+        });
       });
     };
 
@@ -70,7 +75,7 @@ class PenguinWidget {
       }, 100);
     });
 
-    if (this.cushedIce === 4) {
+    if (this.crushedIce === 4) {
       setTimeout(() => {
         new QrCodeModal();
         this.widget.remove();
@@ -100,8 +105,12 @@ class PenguinWidget {
     this.hammer = hammer;
   };
 
-  renderBlocksFromArray = (array, className, onClick) => {
-    array.forEach(({ img, size, x, y }, idx) => {
+  renderBlocksFromArray = (
+    array: IPenguinWidgetBlockParams[],
+    className: string,
+    onClick?: (idx: number) => (e: Event) => void,
+  ) => {
+    array.forEach(({ img, size, x, y }, idx: number) => {
       const block = document.createElement('img');
       block.classList.add(className);
       block.src = img;

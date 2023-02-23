@@ -1,8 +1,8 @@
+import { isMobileDevice } from '@/config';
 import { localStorageService } from '@/services';
 import { assignStyleOnElement } from '@/utlis';
-import { isMobileDevice } from '@/config';
 
-const defaultArguments = {
+const defaultArguments: { x_position: number; y_position: number } = {
   x_position: null,
   y_position: null,
 };
@@ -13,8 +13,8 @@ export class DragElement {
   private pos3 = 0;
   private pos4 = 0;
   private elmnt: HTMLElement;
-  private x_position: number;
-  private y_position: number;
+  public x_position: number;
+  public y_position: number;
 
   constructor(elmnt: HTMLElement, { x_position = null, y_position = null } = defaultArguments) {
     this.x_position = x_position;
@@ -68,12 +68,10 @@ export class DragElement {
     document.onmousemove = null;
   };
 
-  checkIsMoveBlocking = (x, y) => {
-    return x <= 0 || y <= 0;
-  };
+  checkIsMoveBlocking = (x: number, y: number) => x <= 0 || y <= 0;
 
-  elementDrag = (e) => {
-    e = e || window.event;
+  elementDrag = (e: DragEvent) => {
+    // e = e || window.event;
     e.preventDefault();
     this.pos1 = this.pos3 - e.clientX;
     this.pos2 = this.pos4 - e.clientY;
@@ -97,8 +95,8 @@ export class DragElement {
     });
   };
 
-  dragMouseDown = (e: MouseEvent) => {
-    e = e || window.event;
+  dragMouseDown = (e: DragEvent) => {
+    // e = e || window.event;
     e.stopImmediatePropagation();
     e.stopPropagation();
     e.preventDefault();

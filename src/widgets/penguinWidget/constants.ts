@@ -1,4 +1,5 @@
 import { isMobileDevice } from '@/config';
+import type { IPenguinWidgetBlockParams } from './types';
 
 export const iceBackgroundImage =
   'https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/da8bb2c3063250997ef061433a5558d0f48faaef/images/penguinWidget/ice_background.png?raw=true';
@@ -6,7 +7,7 @@ export const iceBackgroundImage =
 export const iceExplosionImage =
   'https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/da8bb2c3063250997ef061433a5558d0f48faaef/images/penguinWidget/ice-explosion.gif?raw=true';
 
-export const penguinParams = [
+export const penguinParams: IPenguinWidgetBlockParams[] = [
   {
     img: 'https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/da8bb2c3063250997ef061433a5558d0f48faaef/images/penguinWidget/penguin1.gif?raw=true',
     x: isMobileDevice ? 58 : 82,
@@ -33,7 +34,7 @@ export const penguinParams = [
   },
 ];
 
-export const iceBlocksParams = [
+export const iceBlocksParams: IPenguinWidgetBlockParams[] = [
   {
     img: 'https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/da8bb2c3063250997ef061433a5558d0f48faaef/images/penguinWidget/ice-cubes/ice-watermelon.png?raw=true',
     fruitImg:

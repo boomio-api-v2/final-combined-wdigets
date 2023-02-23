@@ -1,9 +1,12 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { QRCode } from 'exports-loader?type=commonjs&exports=QRCode!../../qrcode.min.js';
-import { boomioService, localStorageService, widgetHtmlService } from '@/services';
+
 import { isMobileDevice } from '@/config';
+import { boomioService, localStorageService, widgetHtmlService } from '@/services';
 import { assignStyleOnElement } from '@/utlis';
-import { closeImage, dotImage, oldCouponImage, winningAnimationGif } from '@/сonstants/icons';
 import { exitBtnHtml } from '@/сonstants/htmlTemplates';
+import { closeImage, dotImage, oldCouponImage, winningAnimationGif } from '@/сonstants/icons';
 import './styles.css';
 
 const likeBtnImage =

@@ -1,1 +1,1 @@
-export const getRandomArbitrary = (min, max) => Math.random() * (max - min) + min;
+export const getRandomArbitrary = (min: number, max: number) => Math.random() * (max - min) + min;

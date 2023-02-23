@@ -1,5 +1,9 @@
+import { isMobileDevice } from '@/config';
 import { AnimationService, DragElement, localStorageService, QrCodeModal } from '@/services';
+import boomio from '@/services/boomio';
 import { assignStyleOnElement } from '@/utlis';
+import { iceHammerImage } from '@/сonstants';
+
 import {
   icePieceCount,
   icePieceImages,
@@ -9,16 +13,17 @@ import {
   shadowTopCoordinatesForMobile,
   bangImage,
 } from './constants';
-import boomio from '@/services/boomio';
-import { isMobileDevice } from '@/config';
+
 import './styles.css';
-import { iceHammerImage } from '@/сonstants';
 
 class IceWidget {
+  private showCoupon = false;
+  private diplayedIcePieces = 0;
+  private widget: HTMLDivElement;
+  private iceBlock: HTMLImageElement;
+  private hammer: HTMLImageElement;
+  private icePieces: HTMLImageElement[] = [];
   constructor() {
-    this.showCoupon = false;
-    this.icePieces = [];
-    this.diplayedIcePieces = 0;
     this.start();
   }
 

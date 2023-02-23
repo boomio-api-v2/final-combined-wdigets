@@ -1,3 +1,4 @@
+import { isMobileDevice } from '@/config';
 import {
   boomioService,
   localStorageService,
@@ -6,11 +7,13 @@ import {
   QrCodeModal,
   widgetHtmlService,
 } from '@/services';
-import { closeImage, frameSvg, puzzleIconsList } from '@/сonstants/icons';
-import { isMobileDevice } from '@/config';
 import { getRandomArbitrary, assignStyleOnElement } from '@/utlis';
+import { closeImage, frameSvg, puzzleIconsList } from '@/сonstants/icons';
+
 import { puzzlesCoordinateForDesktop, puzzlesCoordinate, puzzleWidgetSize } from './constants';
-import { IPuzzleCoordinate } from '@/widgets/puzzleWidget/types';
+
+import type { IPuzzleCoordinate } from './types';
+
 /// ///// Services ////////
 
 /// /////Puzzle Class ////////////

@@ -7,8 +7,11 @@ import {
   widgetHtmlService,
 } from '@/services';
 import { getRandomArbitrary } from '@/utlis';
+
 import { defaultList } from './constants';
+
 import './styles.css';
+import { IWheelListItem } from '@/widgets/wheelOfFortuneWidget/types';
 
 class WheelOfFortuneWidget {
   private friction = 0.991;
@@ -21,19 +24,24 @@ class WheelOfFortuneWidget {
   private isAccelerating = false;
   private config = localStorageService.getDefaultConfig();
   private elSpin: HTMLElement;
-  private ctx: HTMLCanvasElement;
+  private ctx: CanvasRenderingContext2D;
+  private wheelOfFortune: HTMLElement;
+  private TAU: number;
+  private arc: number;
+  private rad: number;
+  private dia: number;
+  private tot: number;
 
   constructor() {
     if (!this.config.success) return;
     this.createWheel();
     this.elSpin = document.querySelector('#spin');
-    this.ctx = document.getElementById('wheel').getContext`2d`;
-    this.config.list = this?.config?.list ?? defaultList;
-    this.tot = this.config?.list?.length ?? 0;
+    this.ctx = (document.getElementById('wheel') as HTMLCanvasElement).getContext(`2d`);
+    this.tot = defaultList.length ?? 0;
     this.dia = this.ctx.canvas.width;
     this.rad = this.dia / 2;
     this.TAU = 2 * this.PI;
-    this.arc = this.TAU / (this.config?.list?.length ?? 0);
+    this.arc = this.TAU / (defaultList.length ?? 0);
 
     this.elSpin.addEventListener('click', () => {
       boomioService.signal('SPIN');
@@ -43,7 +51,7 @@ class WheelOfFortuneWidget {
       this.angVelMax = getRandomArbitrary(0.1, 0.2);
     });
 
-    this.config?.list?.forEach(this.drawSector);
+    defaultList.forEach(this.drawSector);
     /// //To Check///////
     // if (document.readyState !== 'complete') return;
     this.wheelOfFortune = document.getElementById('wheelOfFortune');
@@ -94,7 +102,7 @@ class WheelOfFortuneWidget {
   getIndex = () => Math.floor(this.tot - (this.ang / this.TAU) * this.tot) % this.tot;
 
   rotate = () => {
-    const sector = this.config?.list?.[this.getIndex()];
+    const sector = defaultList?.[this.getIndex()];
     this.ctx.canvas.style.transform = `rotate(${this.ang - this.PI / 2}rad)`;
     this.elSpin.innerHTML = !this.angVel
       ? 'SPIN'
@@ -104,7 +112,7 @@ class WheelOfFortuneWidget {
     this.elSpin.style.background = sector?.color;
   };
 
-  drawSector = (sector, i) => {
+  drawSector = (sector: IWheelListItem, i: number) => {
     const ang = this.arc * i;
     this.ctx.save();
     this.ctx.beginPath();
@@ -145,7 +153,7 @@ class WheelOfFortuneWidget {
     });
   };
 
-  addCloseIconToElement = (element) => {
+  addCloseIconToElement = (element: HTMLElement) => {
     const closeBtn = document.createElement('div');
     closeBtn.classList.add('custom-close-icon');
     closeBtn.innerHTML = '&#x2715; ';

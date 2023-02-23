@@ -1,21 +1,23 @@
 import { localStorageService, widgetHtmlService } from '@/services';
 import { getRandomArbitrary, addStylesToHtml, assignStyleOnElement } from '@/utlis';
 
-const defaultProps = {
-  posx: 0,
-  posy: 0,
-  size: 100,
-  parent: widgetHtmlService.container,
-  styles: {},
-  elem: document.createElement('div'),
-};
+import type { StyleObject } from '@/types';
+
+interface IAnimationServiceParams {
+  posx?: number;
+  posy?: number;
+  size?: number;
+  parent?: HTMLElement;
+  elem?: HTMLElement;
+  styles?: StyleObject;
+}
 
 const getPosition = (size: number) => parseInt(getRandomArbitrary(10, size - 250).toFixed(), 10);
 
 export default class AnimationService {
   public animationEl: HTMLElement;
-  private posx: number;
-  private posy: number;
+  public posx: number;
+  public posy: number;
 
   constructor({
     posx,
@@ -23,8 +25,8 @@ export default class AnimationService {
     size = 100,
     parent = widgetHtmlService.container,
     elem = document.createElement('div'),
-    styles = {},
-  } = defaultProps) {
+    styles,
+  }: IAnimationServiceParams) {
     const { animation } = localStorageService.config;
 
     const { clientWidth, clientHeight } = document.documentElement;

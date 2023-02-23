@@ -16,7 +16,8 @@ class ImageWidget {
       },
     });
     animationEl.onclick = (e) => {
-      e.target.remove();
+      const elem = e.target as HTMLElement;
+      elem.remove();
       new QrCodeModal();
     };
     new DragElement(animationEl);

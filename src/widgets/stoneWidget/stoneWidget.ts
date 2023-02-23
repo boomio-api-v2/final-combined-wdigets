@@ -1,4 +1,3 @@
-import './styles.css';
 import { AnimationService, DragElement, QrCodeModal } from '@/services';
 import { loadImageBeforeUsing, assignStyleOnElement } from '@/utlis';
 import {
@@ -10,13 +9,23 @@ import {
   openedChestImage,
   cloudImage,
 } from '@/сonstants/icons';
+
 import { stoneBlocks } from './сonstants';
+
+import type { IAnimateBlock } from './types';
+import type { IDraggeble } from '@/types';
+
+import './styles.css';
 
 loadImageBeforeUsing([expolosionOneImage, expolosionTwoImage, expolosionThreeImage, cloudImage]);
 
 class StoneWidget {
   private activeBlocks = 0;
-  private stoneContainer: null | HTMLElement = null;
+  private stoneContainer: HTMLElement;
+  private draggeble: IDraggeble;
+  private isQrCodeVisible: boolean;
+  private chest: HTMLImageElement;
+  private animation: AnimationService;
 
   constructor() {
     this.createContainer();
@@ -24,8 +33,8 @@ class StoneWidget {
   }
 
   animateBlock =
-    (e) =>
-    ({ img, animation, styles = {}, margin = 100, isCloud = false, time = 400 }) => {
+    (e: MouseEvent) =>
+    ({ img, animation, styles = {}, margin = 100, isCloud = false, time = 400 }: IAnimateBlock) => {
       const { x_position, y_position } = this.draggeble;
       const image = new Image();
       const blockElement = document.createElement('img');
@@ -54,7 +63,7 @@ class StoneWidget {
       image.src = img;
     };
 
-  onBlockClick = (e: Event) => {
+  onBlockClick = (e: MouseEvent) => {
     const elem = e.target as HTMLElement;
     if (!elem.classList.contains('block')) return;
     const animationFunc = this.animateBlock(e);

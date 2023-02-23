@@ -1,3 +1,4 @@
+import { localStorageService, widgetHtmlService, UserService } from '@/services';
 import {
   startImageWidget,
   startPuzzleWidget,
@@ -8,13 +9,14 @@ import {
   startPenguinWidget,
 } from '@/widgets';
 
+import type { ILocalStorageConfig } from '@/types';
+
 interface IExtraData {
   go_hunt: string;
   ev_type?: string;
   signal_code?: string;
 }
-
-import { localStorageService, widgetHtmlService, UserService } from '@/services';
+declare let newLinkBoomio: string;
 
 class BoomioService extends UserService {
   private current_page_url: string = window.location.href;
@@ -40,20 +42,11 @@ class BoomioService extends UserService {
     try {
       window.onload = async () => {
         widgetHtmlService.createWidgetContainer();
-        localStorageService.setConfigFromApi({
-          success: true,
-          widget_type: 'puzzle',
-          puzzles_collected: 3,
-          appearing_puzzle_nr: 4,
-          instruction: 'stop',
-          stop_for_sec: 60,
-        });
-        this.loadWidget('puzzle');
-        // const content: Partial<ILocalStorageConfig> = await this.send({ go_hunt: 'true' });
-        // localStorageService.setConfigFromApi(content);
-        // if (content?.widget_type && content.instruction !== 'stop') {
-        //   this.loadWidget(content.widget_type);
-        // }
+        const content: Partial<ILocalStorageConfig> = await this.send({ go_hunt: 'true' });
+        localStorageService.setConfigFromApi(content);
+        if (content?.widget_type && content.instruction !== 'stop') {
+          this.loadWidget(content.widget_type);
+        }
       };
     } catch (err) {
       console.log(err);

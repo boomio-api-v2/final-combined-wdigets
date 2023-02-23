@@ -11,8 +11,8 @@ class StartWidget {
     const size = 200;
     const { clientWidth, clientHeight } = document.documentElement;
 
-    const posx = (Math.random() * (clientWidth - size)).toFixed();
-    const posy = (Math.random() * (clientHeight - size * 1.5)).toFixed();
+    const posx = parseInt((Math.random() * (clientWidth - size)).toFixed());
+    const posy = parseInt((Math.random() * (clientHeight - size * 1.5)).toFixed());
 
     const { animationEl } = new AnimationService({
       posx,
