@@ -2,13 +2,13 @@ import { widgetHtmlService, DragElement } from '@/services';
 import { closeIcon } from '@/сonstants/icons';
 import './styles.css';
 
-class CupsWidget {
+class MazeWidget {
   constructor() {
     this.startAnimation();
   }
 
   startAnimation = () => {
-    localStorage.setItem('cups', true);
+    localStorage.setItem('maze', true);
     const width = 600;
     const height = 372;
     const { clientWidth, clientHeight } = document.documentElement;
@@ -25,7 +25,7 @@ class CupsWidget {
 
     function closeModalDiscount() {
       removeWidgets();
-      localStorage.removeItem('cups');
+      localStorage.removeItem('maze');
       animationEl.remove();
     }
 
@@ -56,10 +56,10 @@ class CupsWidget {
   };
 }
 
-let cupsWidget = null;
+let mazeWidget = null;
 
 export default () => {
-  if (!cupsWidget) {
-    cupsWidget = new CupsWidget();
+  if (!mazeWidget) {
+    mazeWidget = new MazeWidget();
   }
 };

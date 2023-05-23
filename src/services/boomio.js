@@ -7,7 +7,7 @@ import {
   iceWidget,
   startPenguinWidget,
   startTestingWidget,
-  startCupsWidget,
+  startMazeWidget,
 } from '@/widgets';
 
 import { localStorageService, widgetHtmlService, UserService } from '@/services';
@@ -30,7 +30,7 @@ class BoomioService extends UserService {
       ice: iceWidget,
       penguin: startPenguinWidget,
       testing: startTestingWidget,
-      cups: startCupsWidget
+      maze: startMazeWidget
     };
     createWidgetMap[widget_type]();
   };
