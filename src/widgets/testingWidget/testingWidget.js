@@ -1,5 +1,5 @@
-import { widgetHtmlService,boomioService, DragElement } from '@/services';
-import { closeIcon  } from '@/сonstants/icons';
+import { widgetHtmlService, boomioService, DragElement } from '@/services';
+import { closeIcon } from '@/сonstants/icons';
 import './styles.css';
 
 class TestingWidget {
@@ -14,8 +14,8 @@ class TestingWidget {
 
     const { clientWidth, clientHeight } = document.documentElement;
 
-    const posx = ((clientWidth - width)/2).toFixed();
-    const posy = ((clientHeight - height)/2).toFixed();
+    const posx = ((clientWidth - width) / 2).toFixed();
+    const posy = ((clientHeight - height) / 2).toFixed();
 
 
     const animationEl = document.createElement('div');
@@ -24,7 +24,7 @@ class TestingWidget {
     animationEl.style.left = `${posx}px`;
     animationEl.style.width = `${width}px`;
     animationEl.style.height = `${height}px`;
-  
+
     document.body.appendChild(animationEl);
 
     new DragElement(animationEl);
@@ -35,7 +35,7 @@ class TestingWidget {
       animationEl.remove();
     }
 
-    
+
     function removeWidgets() {
       const element = document.getElementById('boomio-widget-screen-wrapper-content');
       if (element) {
@@ -45,11 +45,11 @@ class TestingWidget {
     }
 
     const widgetsList = [
-      {'spawn':'puzzle','despawn':'puzzle-widget','name':'Puzzle'},
-      {'spawn':'wheel','despawn':'wheelOfFortune','name':'Wheel Of Fortune'},
-      {'spawn':'stone','despawn':'stone-container','name':'Stone'},
-      {'spawn':'ice','despawn':'ice-widget','name':'Ice'},
-      {'spawn':'penguin','despawn':'penguin-widget','name':'Penguin'},
+      { 'spawn': 'puzzle', 'despawn': 'puzzle-widget', 'name': 'Puzzle' },
+      { 'spawn': 'wheel', 'despawn': 'wheelOfFortune', 'name': 'Wheel Of Fortune' },
+      { 'spawn': 'stone', 'despawn': 'stone-container', 'name': 'Stone' },
+      { 'spawn': 'ice', 'despawn': 'ice-widget', 'name': 'Ice' },
+      { 'spawn': 'penguin', 'despawn': 'penguin-widget', 'name': 'Penguin' },
     ];
 
     let buttonsHtml = '';
@@ -68,8 +68,8 @@ class TestingWidget {
         </div>
         <div class='coupon__preview__body coupon_discount_modal'>
           <div class='coupon__preview__card__header text-center d-block'>
-            <h2 >Widgets Preview</h3>
-            ${buttonsHtml}          
+            <h2 >Widgets Preview</h2>
+          <span style='height:300px;overflow: auto;'>  ${buttonsHtml}   </span>       
           </div>
           <div class='coupon__preview__card__header text-center d-block'>
           <div style='width:100%;margin-bottom:16px'>
@@ -109,5 +109,5 @@ let testingWidget = null;
 export default () => {
   if (!testingWidget) {
     testingWidget = new TestingWidget();
-    }
+  }
 };

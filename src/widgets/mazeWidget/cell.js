@@ -35,7 +35,8 @@ export default class Cell {
 
     if (this.visited || this.isHightlight || this.isDone) {
       fill(this.isDone ? 50 : this.isHightlight ? 200 : 100);
-      noStroke();
+      fill('green')
+        noStroke();
       rect(x, y, this.size, this.size);
     }
 
