@@ -1,6 +1,7 @@
 import Cell from "./cell.js";
 import { sleep } from "./utils.js";
 // import { DIR, PATH_STR, readPathStr } from "./path.js";
+// import { widgetHtmlService, } from '@/services';
 
 let maze
 class Maze {
@@ -302,34 +303,66 @@ const resetMaze = () => {
   });
 }
 
-// const startMaze = () => {
-//   window.setup = () => {
-//     createCanvas(200, 200);
-//     resetMaze();
-//   };
 
-//   window.draw = () => {
-//     background(50);
-//     maze.draw();
-//   };
+class MazeWidget {
+  constructor() {
+    this.startMaze()
+    // this.testVisibility()
+  }
 
-//   window.keyPressed = () => {
-//     if (keyCode == 13) {
-//       resetMaze();
-//     }
-//   };
-// }
+  startMaze = () => {
+    const slogan = document.createElement("h2");
+    slogan.innerHTML = "this indicates that widget should be visible";
+    document.body.appendChild(slogan);
 
-const startMaze = () => {
-  const btn = document.createElement("button");
-  btn.innerHTML = "You should see this button now";
-  document.body.appendChild(btn);
+    const canv = document.createElement('canvas');
+    canv.id = 'canvasdummy';
+    canv.height = 300;
+    canv.width = 300;
+    document.body.appendChild(canv);
+    let canvas1 = document.getElementById('canvasdummy');
+    let ctx = canvas1.getContext('2d');
+    ctx.beginPath();
+    ctx.rect(20, 20, 150, 100);
+    ctx.fillStyle = "red";
+    ctx.fill();
+    ctx.beginPath();
+    ctx.rect(40, 40, 150, 100);
+    ctx.fillStyle = "blue";
+    ctx.fill();
+
+    testFunc()
+
+    resetMaze()
+
+    window.setup = () => {
+      createCanvas(200, 200);
+      resetMaze();
+    };
+
+    window.draw = () => {
+      background(50);
+      maze.draw();
+    };
+
+    // window.keyPressed = () => {
+    //   if (keyCode == 13) {
+    //     resetMaze();
+    //   }
+    // };
+
+    const testFunc = () => {
+      const slogan = document.createElement("h2");
+      slogan.innerHTML = "This shows that function was trigered";
+      document.body.appendChild(slogan);
+
+    }
+  }
 }
 
 
 export default () => {
-  startMaze()
+  new MazeWidget()
 }
 
 
-// startMaze()
