@@ -1,1 +1,1 @@
-export { default as startMazeWidget } from './mazeWidget';
+export { default as startMazeWidget } from './main';
