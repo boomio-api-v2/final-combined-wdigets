@@ -173,7 +173,10 @@ class GuessWidget {
       card.classList.remove('flip')
       let imgTag = card.querySelector('.back-view img');
 
-      imgTag.src = `https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-${i < 4 ? arr[i] : i > 4 ? arr[i - 1] : ''}.png?raw=true`;
+      imgTag.src = `https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/guess3-3dimages/src/widgets/guessWidget/img-${i < 4 ? arr[i] : i > 4 ? arr[i - 1] : ''}.png?raw=true`;
+      // imgTag.src = `https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-${i < 4 ? arr[i] : i > 4 ? arr[i - 1] : ''}.png?raw=true`;
+
+      
 
     });
 
