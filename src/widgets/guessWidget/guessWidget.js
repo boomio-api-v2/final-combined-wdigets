@@ -50,81 +50,83 @@ class GuessWidget {
       'boomio--animation__wrapper--initial',
       'box',
     );
+    // <img src=${queIcon} alt="icon"></img>
     myCanvas.innerHTML = `
     <div class="wrapper">
       <ul class="guess-cards">
-        <li class="guess-card invisible">
-          <div class="view front-view">
-          <img src=${queIcon} alt="icon">
-          </div>
-          <div class="view back-view">
-            <img src=${img1}>
-          </div>
-        </li>
-        <li class="guess-card invisible">
-          <div class="view front-view">
-          <img src=${queIcon} alt="icon">
-          </div>
-          <div class="view back-view">
-            <img src=${img1}>
-          </div>
-        </li>
-        <li class="guess-card invisible">
-          <div class="view front-view">
-          <img src=${queIcon} alt="icon">
-          </div>
-          <div class="view back-view">
-            <img src=${img1}>
-          </div>
-        </li>
-        <li class="guess-card invisible">
-          <div class="view front-view">
-          <img src=${queIcon} alt="icon">
-          </div>
-          <div class="view back-view">
-            <img src=${img1}>
-          </div>
-        </li>
-        <li class="guess-card disabled invisible">
-          <div class="view front-view">
-          <img src=${center} alt="icon">
-          </div>
-          <div class="view back-view">
-            <img src=${center} alt="icon">
-          </div>
-        </li>
-        <li class="guess-card invisible">
-          <div class="view front-view">
-          <img src=${queIcon} alt="icon">
-          </div>
-          <div class="view back-view">
-            <img src=${img1}>
-          </div>
-        </li>
-        <li class="guess-card invisible">
-          <div class="view front-view">
-          <img src=${queIcon} alt="icon">
-          </div>
-          <div class="view back-view">
-            <img src=${img1}>
-          </div>
-        </li>
-        <li class="guess-card invisible">
-          <div class="view front-view">
-          <img src=${queIcon} alt="icon">
-          </div>
-          <div class="view back-view">
-            <img src=${img1}>
-          </div>
-        </li>
-        <li class="guess-card invisible">
-          <div class="view front-view">
-          <img src=${queIcon} alt="icon">
-          </div>
-          <div class="view back-view">
-            <img src=${img1}>
-          </div>
-        </li>    
+      <li id="cube1" class='cube'>
+      <div class="front front-view"></div>
+      <div class="back front-view"> <img class="cube-image"src=${img1}></div>
+      <div class="right front-view"></div>
+      <div class="left front-view"></div>
+      <div class="top front-view"></div>
+      <div class="bottom front-view"></div>
+    </li>
+      <li id="cube2" class='cube'>
+      <div class="front front-view"></div>
+      <div class="back front-view"> <img class="cube-image"src=${img1}></div>
+      <div class="right front-view"></div>
+      <div class="left front-view"></div>
+      <div class="top front-view"></div>
+      <div class="bottom front-view"></div>
+    </li>
+      <li id="cube3" class='cube'>
+      <div class="front front-view"></div>
+      <div class="back front-view"> <img class="cube-image"src=${img1}></div>
+      <div class="right front-view"></div>
+      <div class="left front-view"></div>
+      <div class="top front-view"></div>
+      <div class="bottom front-view"></div>
+    </li>
+      <li id="cube4" class='cube'>
+      <div class="front front-view"></div>
+      <div class="back front-view"> <img class="cube-image"src=${img1}></div>
+      <div class="right front-view"></div>
+      <div class="left front-view"></div>
+      <div class="top front-view"></div>
+      <div class="bottom front-view"></div>
+    </li>
+      <li id="cube5" class='cube'>
+      <div class="front front-view"></div>
+      <div class="back front-view"> <img class="cube-image"src=${img1}></div>
+      <div class="right front-view"></div>
+      <div class="left front-view"></div>
+      <div class="top front-view"></div>
+      <div class="bottom front-view"></div>
+    </li>
+      <li id="cube6" class='cube'>
+      <div class="front front-view"></div>
+      <div class="back front-view"> <img class="cube-image"src=${img1}></div>
+      <div class="right front-view"></div>
+      <div class="left front-view"></div>
+      <div class="top front-view"></div>
+      <div class="bottom front-view"></div>
+    </li>
+      <li id="cube7" class='cube'>
+      <div class="front front-view"></div>
+      <div class="back front-view"> <img class="cube-image"src=${img1}></div>
+      <div class="right front-view"></div>
+      <div class="left front-view"></div>
+      <div class="top front-view"></div>
+      <div class="bottom front-view"></div>
+    </li>
+      <li id="cube8" class='cube'>
+      <div class="front front-view"></div>
+      <div class="back front-view"> <img class="cube-image"src=${img1}></div>
+      <div class="right front-view"></div>
+      <div class="left front-view"></div>
+      <div class="top front-view"></div>
+      <div class="bottom front-view"></div>
+    </li>
+      <li id="cube9" class='cube'>
+      <div class="front front-view"></div>
+      <div class="back front-view"> <img class="cube-image"src=${img1}></div>
+      <div class="right front-view"></div>
+      <div class="left front-view"></div>
+      <div class="top front-view"></div>
+      <div class="bottom front-view"></div>
+    </li>
+         
       </ul>
     </div>
     `;
@@ -165,73 +167,128 @@ class GuessWidget {
 
 
   shuffleCard() {
-    const cards = Array.from(document.querySelectorAll('.guess-card'));
-
+    const cubes = Array.from(document.querySelectorAll('.cube'));
+    console.log('cubes', cubes)
     let arr = [1, 2, 3, 4, 1, 2, 3, 4];
     arr.sort(() => (Math.random() > 0.5 ? 1 : -1));
-    cards.forEach((card, i) => {
-      card.classList.remove('flip')
-      let imgTag = card.querySelector('.back-view img');
+    // for (let i = 1; i < 10; i++) {
+    //   const element = document.getElementById(`cube${i}`);
+    //   let imgTag = element.querySelector('img')
+    //   console.log('imgTag ===', imgTag);
+    //   imgTag.src = `https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-${i < 5 ? arr[i-1] : i > 5 ? arr[i - 2] : ''}.png?raw=true`;
+    // }
 
-      imgTag.src = `https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-${i < 4 ? arr[i] : i > 4 ? arr[i - 1] : ''}.png?raw=true`;
+    cubes.forEach((cube, i) => {
+      let imgTag = cube.querySelector('img');
+      // card.classList.remove('flip')
+
+imgTag.src = `https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-${i < 4 ? arr[i] : i > 4 ? arr[i - 1] : ''}.png?raw=true`;
 
     });
 
-    setTimeout(() => {
-      for (let i = 1; i < 4; i++) {
-        cards[i - 1].classList.add(`flytop${i}`)
-        cards[i + 2].classList.add(`flymid${i}`)
-        cards[i + 5].classList.add(`flybottom${i}`)
-      }
-      cards.forEach((card) => {
-        card.classList.remove('invisible')
-      })
+    // setTimeout(() => {
+    //   for (let i = 1; i < 4; i++) {
+    //     cards[i - 1].classList.add(`flytop${i}`)
+    //     cards[i + 2].classList.add(`flymid${i}`)
+    //     cards[i + 5].classList.add(`flybottom${i}`)
+    //   }
+    //   cards.forEach((card) => {
+    //     card.classList.remove('invisible')
+    //   })
 
-    }, 400);
-
-    setTimeout(() => {
-
-      cards.forEach((card, i) => {
-        if (i != 4) card.classList.add('flip');
-      })
-
-    }, 2000);
+    // }, 400);
 
     setTimeout(() => {
-      cards.forEach((card) => {
-        card.classList.remove('flip');
-      })
-      for (let i = 1; i < 4; i++) {
-        cards[i - 1].classList.remove(`flytop${i}`)
-        cards[i + 2].classList.remove(`flymid${i}`)
-        cards[i + 5].classList.remove(`flybottom${i}`)
-      }
-    }, 3000);
+
+      cubes.forEach((cube, i) => {
+        if (i != 4) {
+          cube.classList.remove('turn-front')
+          cube.classList.add('turn-back')
+          const walls = Array.from(document.querySelectorAll('div'))
+          walls.forEach((wall)=> {
+            wall.classList.remove('front-view')
+            wall.classList.add('back-view')
+          })
+        }
+          })
+
+    }, 10000);
+
+    setTimeout(() => {
+      cubes.forEach((cube, i) => {
+        if (i != 4) {
+          cube.classList.add('turn-front')
+          cube.classList.remove('turn-back')
+          const walls = Array.from(document.querySelectorAll('div'))
+          walls.forEach((wall)=> {
+            wall.classList.add('front-view')
+            wall.classList.remove('back-view')
+          })
+        }
+          })
+    },15000);
+
+    // setTimeout(() => {
+    //   cards.forEach((card) => {
+    //     card.classList.remove('flip');
+    //   })
+    //   for (let i = 1; i < 4; i++) {
+    //     cards[i - 1].classList.remove(`flytop${i}`)
+    //     cards[i + 2].classList.remove(`flymid${i}`)
+    //     cards[i + 5].classList.remove(`flybottom${i}`)
+    //   }
+    // }, 3000);
 
 
   }
   addCardEventListeners() {
-    const cards = Array.from(document.querySelectorAll('.guess-card'));
+    const cards = Array.from(document.querySelectorAll('.cube'));
     let matched = 0;
     let cardOne, cardTwo;
     let disableDeck = false;
 
     function flipCard({ target: clickedCard }) {
-      if (clickedCard.classList.contains('disabled')) return
-      if (cardOne !== clickedCard && !disableDeck) {
-        clickedCard.classList.add('flip');
+      const showBack = (el) => {
+        el.classList.remove('turn-front')
+        el.classList.add('turn-back')
+        const walls = Array.from(el.querySelectorAll('div'))
+        walls.forEach((wall)=> {
+          wall.classList.remove('front-view')
+          wall.classList.add('back-view')
+        })
+      }
+  
+
+// clickedCard.parentElement   
+  
+      console.log({ target: clickedCard.parentElement
+      },'flip'  )
+
+      if (clickedCard.parentElement.classList.contains('disabled')) return
+      if (cardOne !== clickedCard.parentElement && !disableDeck) {
+        // clickedCard.classList.add('flip');
+        showBack(clickedCard.parentElement)
         if (!cardOne) {
-          return (cardOne = clickedCard);
+          return (cardOne = clickedCard.parentElement);
         }
-        cardTwo = clickedCard;
+        cardTwo = clickedCard.parentElement;
         disableDeck = true;
-        let cardOneImg = cardOne.querySelector('.back-view img').src,
-          cardTwoImg = cardTwo.querySelector('.back-view img').src;
+        let cardOneImg = cardOne.querySelector('img').src,
+          cardTwoImg = cardTwo.querySelector('img').src;
         matchCards(cardOneImg, cardTwoImg);
       }
     }
 
     function matchCards(img1, img2) {
+      const showFront = (el) => {
+        el.classList.add('turn-front')
+        el.classList.remove('turn-back')
+        const walls = Array.from(el.querySelectorAll('div'))
+        walls.forEach((wall)=> {
+          wall.classList.add('front-view')
+          wall.classList.remove('back-view')
+        })
+      }
       if (img1 === img2) {
         matched++;
         cardOne.classList.add('jump');
@@ -245,19 +302,24 @@ class GuessWidget {
             }
           }, 3000);
         }
+        //cia matomai reikes listeneri nuimti nuo visu sienu 
         cardOne.removeEventListener('click', flipCard);
         cardTwo.removeEventListener('click', flipCard);
         cardOne = cardTwo = '';
         return (disableDeck = false);
       }
       setTimeout(() => {
-        cardOne.classList.add('shake');
-        cardTwo.classList.add('shake');
+        // add mismach animation 
+        // cardOne.classList.add('shake');
+        // cardTwo.classList.add('shake');
       }, 400);
 
       setTimeout(() => {
-        cardOne.classList.remove('shake', 'flip');
-        cardTwo.classList.remove('shake', 'flip');
+        // remove mismach anim 
+        // cardOne.classList.remove('shake');
+        // cardTwo.classList.remove('shake');
+        showFront(cardOne)
+        showFront(cardTwo)
         cardOne = cardTwo = '';
         disableDeck = false;
       }, 1200);

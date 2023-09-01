@@ -60,34 +60,39 @@
   animation: shake 0.35s ease-in-out;
 
 }
+
 .invisible {
   display: none;
 }
-.flytop1{
+
+.flytop1 {
   animation: flyinNE 0.2s 0.1s ease-in-out;
   animation-fill-mode: backwards;
 }
-.flytop2{
+
+.flytop2 {
   animation: flyinNE 0.5s 0.1s ease-in-out;
   animation-fill-mode: backwards;
 }
-.flytop3{
+
+.flytop3 {
   animation: flyinNE 0.8s 0.1s ease-in-out;
   animation-fill-mode: backwards;
 }
 
 @keyframes flyinNE {
   0% {
-    transform:translateX(500px) translateY(-200px) rotateZ(350deg);
+    transform: translateX(500px) translateY(-200px) rotateZ(350deg);
   }
 }
 
 
-.flymid1{
+.flymid1 {
   animation: flyinE 1.2s 0.1s ease-in-out;
   animation-fill-mode: backwards;
 }
-.flymid2{
+
+.flymid2 {
   animation-duration: 0.75s;
   animation-delay: 0.8s;
   animation-timing-function: cubic-bezier(.26, .53, .74, 1.48);
@@ -96,38 +101,42 @@
   animation-timing-function: ease;
   /* animation-name: animate-roll; */
 }
-.flymid3{
+
+.flymid3 {
   animation: flyinW 1.2s 0.1s ease-in-out;
   animation-fill-mode: backwards;
 }
 
 @keyframes flyinE {
   0% {
-    transform:translateX(-500px) ;
-  }
-}
-@keyframes flyinW {
-  0% {
-    transform:translateX(500px) ;
+    transform: translateX(-500px);
   }
 }
 
-.flybottom1{
+@keyframes flyinW {
+  0% {
+    transform: translateX(500px);
+  }
+}
+
+.flybottom1 {
   animation: flyinSW 1.2s 0.1s ease-in-out;
   animation-fill-mode: backwards;
 }
-.flybottom2{
+
+.flybottom2 {
   animation: flyinSW 0.9s 0.1s ease-in-out;
   animation-fill-mode: backwards;
 }
-.flybottom3{
+
+.flybottom3 {
   animation: flyinSW 0.6s 0.1s ease-in-out;
   animation-fill-mode: backwards;
 }
 
 @keyframes flyinSW {
   0% {
-    transform:translateX(-500px) translateY(200px) rotateZ(-350deg);
+    transform: translateX(-500px) translateY(200px) rotateZ(-350deg);
   }
 }
 
@@ -136,6 +145,7 @@
     opacity: 0;
     filter: blur(15px);
   }
+
   100% {
     opacity: 1;
     filter: blur(0px);
@@ -147,6 +157,7 @@
     opacity: 0;
     transform: scale(0, 0) rotate(360deg);
   }
+
   100% {
     opacity: 1;
     transform: scale(1, 1) rotate(0deg);
@@ -158,12 +169,13 @@
   animation: jump 0.5s 0.2s ease-in-out;
 }
 
- @keyframes jump {
- 
-  50%  {
-     transform: translateY(-10px) ;
-   }
-   /* 30% {
+@keyframes jump {
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  /* 30% {
      transform: rotate(0deg);
    }
   45% {
@@ -172,10 +184,10 @@
   60% {
      transform: rotate(720deg);
    } */
-   /* 100% {
+  /* 100% {
         transform: translateY(0px) ;
       } */
- }  
+}
 
 #guess-container {
   width: 300px;
@@ -241,12 +253,395 @@
 }
 
 
+/* cubes */
+
+:root {
+  --uncolored-size: 30px;
+  --colored-size: 60px;
+}
+
+.container-c {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  -webkit-perspective: 1000px;
+  -moz-perspective: 1000px;
+  /* background-color: #8c8f90; */
+}
+
+.cube {
+  width:30%;
+  height: 30%;
+ 
+
+  -webkit-transform-style: preserve-3d;
+  -webkit-animation: rotatecube 10s infinite;
+  animation-name: rotatecube;
+  /* -moz-transform-style: preserve-3d;
+  -moz-animation: rotatecube 10s infinite; */
+}
+
+/* .cube {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  -webkit-transform-style: preserve-3d;
+   animation-duration: 3s;
+  animation-delay: 0.5s;
+   animation-fill-mode: backwards;
+} */
+
+.cube.turn-back {
+  animation-name: rotatecube-to-back;
+  animation-duration: 3s;
+  animation-delay: 0.5s;
+  animation-fill-mode: backwards;
+  animation-iteration-count: 1;
+}
+
+.cube.turn-front {
+  animation-name: rotatecube-to-front;
+  animation-duration: 3s;
+  animation-delay: 0.5s;
+  animation-fill-mode: backwards;
+  animation-iteration-count: 1;
+}
+
+
+.cube div {
+  width: var(--colored-size);
+  height: var(--colored-size);
+  /* display: block; */
+  position: absolute;
+  /* border: none; */
+  /* line-height: 200px; */
+  /* text-align: center; */
+  /* font-size: 50px; */
+  /* font-weight: bold; */
+}
+
+.cube-image {
+  width: 103%;
+    opacity: 0.75;
+}
+
+@-webkit-keyframes rotatecube {
+  0% {
+    -webkit-transform: rotateX(0deg) rotateY(360deg) rotateZ(90deg);
+  }
+
+  25% {
+    -webkit-transform: rotateX(90deg) rotateY(270deg) rotateZ(180deg);
+  }
+
+  50% {
+    -webkit-transform: rotateX(180deg) rotateY(180deg) rotateZ(0deg);
+  }
+
+  75% {
+    -webkit-transform: rotateX(270deg) rotateY(90deg) rotateZ(360deg);
+  }
+
+  100% {
+    -webkit-transform: rotateX(360deg) rotateY(0deg) rotateZ(90deg);
+  }
+}
+
+@-webkit-keyframes rotatecube-to-front {
+  0% {
+    -webkit-transform: rotateX(0deg) rotateY(180deg) rotateZ(180deg);
+  }
+
+  25% {
+    -webkit-transform: rotateX(0deg) rotateY(90deg) rotateZ(90deg);
+  }
+
+  50% {
+    -webkit-transform: rotateX(270deg) rotateY(180deg) rotateZ(90deg);
+  }
+
+  75% {
+    -webkit-transform: rotateX(90deg) rotateY(90deg) rotateZ(180deg);
+  }
+
+  100% {
+    -webkit-transform: rotateX(180deg) rotateY(180deg) rotateZ(180deg);
+  }
+
+}
+
+@-webkit-keyframes hide-back {
+  0% {
+    opacity: 1
+  }
+
+  25% {
+    opacity: 0.75
+  }
+
+  50% {
+    opacity: 0.5
+  }
+
+  75% {
+    opacity: 0.25
+  }
+
+  100% {
+    opacity: 0
+  }
+}
+
+@-webkit-keyframes show-back {
+  0% {
+    opacity: 0
+  }
+
+  25% {
+    opacity: 0.25
+  }
+
+  50% {
+    opacity: 0.5
+  }
+
+  75% {
+    opacity: 0.75
+  }
+
+  100% {
+    opacity: 1
+  }
+}
+
+@-webkit-keyframes rotatecube-to-back {
+  0% {
+    -webkit-transform: rotateX(0deg) rotateY(180deg) rotateZ(180deg);
+  }
+
+  25% {
+    -webkit-transform: rotateX(0deg) rotateY(270deg) rotateZ(180deg);
+  }
+
+  50% {
+    -webkit-transform: rotateX(90deg) rotateY(90deg) rotateZ(90deg);
+  }
+
+  75% {
+    -webkit-transform: rotateX(0deg) rotateY(90deg) rotateZ(90deg);
+  }
+
+  100% {
+    -webkit-transform: rotateX(180deg) rotateY(180deg) rotateZ(180deg);
+  }
+
+}
+
+
+.question{
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('https://raw.githubusercontent.com/boomio-api-v2/final-combined-wdigets-1/1c01bd6fb616cfea26f25c6287d2d860d987ae63/src/widgets/guessWidget/que_icon.svg');
+  opacity: 0.5;
+  border-radius: 12px;
+}
+.centertile{
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/guess3/src/widgets/guessWidget/center.png?raw=true');
+  opacity: 0.5;
+  border-radius: 12px;
+}
+
+.img1 {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-1.png?raw=true');
+  opacity: 0.5;
+  border-radius: 12px;
+}
+.img2 {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-2.png?raw=true');
+  opacity: 0.5;
+  border-radius: 12px;
+}
+.img3 {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-3.png?raw=true');
+  opacity: 0.5;
+  border-radius: 12px;
+}
+.img4 {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-4.png?raw=true');
+  opacity: 0.5;
+  border-radius: 12px;
+}
+.img5 {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-5.png?raw=true');
+  opacity: 0.5;
+  border-radius: 12px;
+}
+.img6 {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-6.png?raw=true');
+  opacity: 0.5;
+  border-radius: 12px;
+}
+.img7 {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-7.png?raw=true');
+  opacity: 0.5;
+  border-radius: 12px;
+}
+.img8 {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-8.png?raw=true');
+  opacity: 0.5;
+  border-radius: 12px;
+}
+
+
+
+.front {
+  background: rgba(255, 0, 0, 0.25);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('https://raw.githubusercontent.com/boomio-api-v2/final-combined-wdigets-1/1c01bd6fb616cfea26f25c6287d2d860d987ae63/src/widgets/guessWidget/que_icon.svg');
+  opacity: 0.5;
+  border-radius: 12px;
+}
+
+.back {
+
+  background: rgba(0, 255, 0, 0.5);
+  border-radius: 12px;
+}
+
+.right {
+  background: rgba(0, 0, 255, .5);
+  border-radius: 12px;
+}
+
+.left {
+  background: rgba(0, 255, 255, .5);
+  border-radius: 12px;
+}
+
+.top {
+  background: rgba(255, 0, 255, .5);
+  border-radius: 12px;
+}
+
+.bottom {
+  background: rgba(255, 255, 0, .5);
+  border-radius: 12px;
+}
+
+.cube .front.front-view {
+  -webkit-transform: rotateY(0deg) translateZ(var(--uncolored-size));
+  -moz-transform: rotateY(0deg) translateZ(var(--uncolored-size));
+}
+
+.cube .back.front-view {
+  -webkit-transform: rotateX(180deg) translateZ(var(--uncolored-size));
+  -moz-transform: rotateX(180deg) translateZ(var(--uncolored-size));
+  animation-name: hide-back;
+  animation-duration: 3s;
+  animation-delay: 0.5s;
+  animation-fill-mode: backwards;
+  animation-iteration-count: 1;
+  opacity: 0;
+}
+
+.cube .right.front-view {
+  -webkit-transform: rotateY(90deg) translateZ(var(--uncolored-size));
+  -moz-transform: rotateY(90deg) translateZ(var(--uncolored-size));
+}
+
+.cube .left.front-view {
+  -webkit-transform: rotateY(-90deg) translateZ(var(--uncolored-size));
+  -moz-transform: rotateY(-90deg) translateZ(var(--uncolored-size));
+}
+
+.cube .top.front-view {
+  -webkit-transform: rotateX(90deg) translateZ(var(--uncolored-size));
+  -moz-transform: rotateX(90deg) translateZ(var(--uncolored-size));
+}
+
+.cube .bottom.front-view {
+  -webkit-transform: rotateX(-90deg) translateZ(var(--uncolored-size));
+  -moz-transform: rotateX(-90deg) translateZ(var(--uncolored-size));
+}
+
+
+
+.cube .front.back-view {
+  -webkit-transform: rotateX(180deg) translateZ(var(--uncolored-size));
+  -moz-transform: rotateX(180deg) translateZ(var(--uncolored-size));
+}
+
+.cube .back.back-view {
+  -webkit-transform: rotateY(0deg) translateZ(var(--uncolored-size));
+  -moz-transform: rotateY(0deg) translateZ(var(--uncolored-size));
+  animation-name: show-back;
+  animation-duration: 3s;
+  animation-delay: 0.5s;
+  animation-fill-mode: backwards;
+  animation-iteration-count: 1;
+
+}
+
+.cube .right.back-view {
+  -webkit-transform: rotateY(-90deg) translateZ(var(--uncolored-size));
+  -moz-transform: rotateY(-90deg) translateZ(var(--uncolored-size));
+}
+
+.cube .left.back-view {
+  -webkit-transform: rotateY(90deg) translateZ(var(--uncolored-size));
+  -moz-transform: rotateY(90deg) translateZ(var(--uncolored-size));
+}
+
+.cube .top.back-view {
+  -webkit-transform: rotateX(-90deg) translateZ(var(--uncolored-size));
+  -moz-transform: rotateX(-90deg) translateZ(var(--uncolored-size));
+
+}
+
+.cube .bottom.back-view {
+  -webkit-transform: rotateX(90deg) translateZ(var(--uncolored-size));
+  -moz-transform: rotateX(90deg) translateZ(var(--uncolored-size));
+}
+
+
+
+
 @media (min-width: 600px) {
 
   .guess-cards {
     height: 250px;
     width: 250px;
-    margin-top:120px;
+    margin-top: 120px;
     margin-left: 100px;
   }
 
