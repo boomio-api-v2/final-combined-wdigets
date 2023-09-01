@@ -55,7 +55,7 @@ class GuessWidget {
     <div class="wrapper">
       <ul class="guess-cards">
       <li id="cube1" class='cube'>
-      <div class="front front-view"></div>
+      <div class="front front-view question"></div>
       <div class="back front-view"> <img class="cube-image"src=${img1}></div>
       <div class="right front-view"></div>
       <div class="left front-view"></div>
@@ -63,7 +63,7 @@ class GuessWidget {
       <div class="bottom front-view"></div>
     </li>
       <li id="cube2" class='cube'>
-      <div class="front front-view"></div>
+      <div class="front front-view question"></div>
       <div class="back front-view"> <img class="cube-image"src=${img1}></div>
       <div class="right front-view"></div>
       <div class="left front-view"></div>
@@ -71,7 +71,7 @@ class GuessWidget {
       <div class="bottom front-view"></div>
     </li>
       <li id="cube3" class='cube'>
-      <div class="front front-view"></div>
+      <div class="front front-view question"></div>
       <div class="back front-view"> <img class="cube-image"src=${img1}></div>
       <div class="right front-view"></div>
       <div class="left front-view"></div>
@@ -79,7 +79,7 @@ class GuessWidget {
       <div class="bottom front-view"></div>
     </li>
       <li id="cube4" class='cube'>
-      <div class="front front-view"></div>
+      <div class="front front-view question"></div>
       <div class="back front-view"> <img class="cube-image"src=${img1}></div>
       <div class="right front-view"></div>
       <div class="left front-view"></div>
@@ -87,15 +87,15 @@ class GuessWidget {
       <div class="bottom front-view"></div>
     </li>
       <li id="cube5" class='cube'>
-      <div class="front front-view"></div>
+      <div class="front front-view centertile"></div>
       <div class="back front-view"> <img class="cube-image"src=${img1}></div>
-      <div class="right front-view"></div>
-      <div class="left front-view"></div>
-      <div class="top front-view"></div>
-      <div class="bottom front-view"></div>
+      <div class="right front-view centertile "></div>
+      <div class="left front-view centertile"></div>
+      <div class="top front-view centertile"></div>
+      <div class="bottom front-view centertile"></div>
     </li>
       <li id="cube6" class='cube'>
-      <div class="front front-view"></div>
+      <div class="front front-view question"></div>
       <div class="back front-view"> <img class="cube-image"src=${img1}></div>
       <div class="right front-view"></div>
       <div class="left front-view"></div>
@@ -103,7 +103,7 @@ class GuessWidget {
       <div class="bottom front-view"></div>
     </li>
       <li id="cube7" class='cube'>
-      <div class="front front-view"></div>
+      <div class="front front-view question"></div>
       <div class="back front-view"> <img class="cube-image"src=${img1}></div>
       <div class="right front-view"></div>
       <div class="left front-view"></div>
@@ -111,7 +111,7 @@ class GuessWidget {
       <div class="bottom front-view"></div>
     </li>
       <li id="cube8" class='cube'>
-      <div class="front front-view"></div>
+      <div class="front front-view question"></div>
       <div class="back front-view"> <img class="cube-image"src=${img1}></div>
       <div class="right front-view"></div>
       <div class="left front-view"></div>
@@ -119,7 +119,7 @@ class GuessWidget {
       <div class="bottom front-view"></div>
     </li>
       <li id="cube9" class='cube'>
-      <div class="front front-view"></div>
+      <div class="front front-view question"></div>
       <div class="back front-view"> <img class="cube-image"src=${img1}></div>
       <div class="right front-view"></div>
       <div class="left front-view"></div>
@@ -183,7 +183,7 @@ class GuessWidget {
       // card.classList.remove('flip')
 
 imgTag.src = `https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-${i < 4 ? arr[i] : i > 4 ? arr[i - 1] : ''}.png?raw=true`;
-
+if (i === 4) {imgTag.src = 'https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/guess3/src/widgets/guessWidget/center.png?raw=true'} 
     });
 
     // setTimeout(() => {
@@ -212,7 +212,7 @@ imgTag.src = `https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/que
         }
           })
 
-    }, 10000);
+    }, 500);
 
     setTimeout(() => {
       cubes.forEach((cube, i) => {
@@ -226,7 +226,7 @@ imgTag.src = `https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/que
           })
         }
           })
-    },15000);
+    },2000);
 
     // setTimeout(() => {
     //   cards.forEach((card) => {

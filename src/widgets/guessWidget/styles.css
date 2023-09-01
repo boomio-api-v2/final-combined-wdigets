@@ -293,16 +293,16 @@
 
 .cube.turn-back {
   animation-name: rotatecube-to-back;
-  animation-duration: 3s;
-  animation-delay: 0.5s;
+  animation-duration: 1s;
+  animation-delay: 0s;
   animation-fill-mode: backwards;
   animation-iteration-count: 1;
 }
 
 .cube.turn-front {
   animation-name: rotatecube-to-front;
-  animation-duration: 3s;
-  animation-delay: 0.5s;
+  animation-duration: 1s;
+  animation-delay: 0s;
   animation-fill-mode: backwards;
   animation-iteration-count: 1;
 }
@@ -352,17 +352,17 @@
     -webkit-transform: rotateX(0deg) rotateY(180deg) rotateZ(180deg);
   }
 
-  25% {
+  /* 25% {
     -webkit-transform: rotateX(0deg) rotateY(90deg) rotateZ(90deg);
-  }
+  } */
 
-  50% {
+  /* 50% {
     -webkit-transform: rotateX(270deg) rotateY(180deg) rotateZ(90deg);
-  }
+  } */
 
-  75% {
+  /* 75% {
     -webkit-transform: rotateX(90deg) rotateY(90deg) rotateZ(180deg);
-  }
+  } */
 
   100% {
     -webkit-transform: rotateX(180deg) rotateY(180deg) rotateZ(180deg);
@@ -419,17 +419,17 @@
     -webkit-transform: rotateX(0deg) rotateY(180deg) rotateZ(180deg);
   }
 
-  25% {
+  /* 25% {
     -webkit-transform: rotateX(0deg) rotateY(270deg) rotateZ(180deg);
-  }
+  } */
 
-  50% {
+  /* 50% {
     -webkit-transform: rotateX(90deg) rotateY(90deg) rotateZ(90deg);
-  }
+  } */
 
-  75% {
+  /* 75% {
     -webkit-transform: rotateX(0deg) rotateY(90deg) rotateZ(90deg);
-  }
+  } */
 
   100% {
     -webkit-transform: rotateX(180deg) rotateY(180deg) rotateZ(180deg);
@@ -438,97 +438,31 @@
 }
 
 
-.question{
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url('https://raw.githubusercontent.com/boomio-api-v2/final-combined-wdigets-1/1c01bd6fb616cfea26f25c6287d2d860d987ae63/src/widgets/guessWidget/que_icon.svg');
+.question {
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-image: url('https://raw.githubusercontent.com/boomio-api-v2/final-combined-wdigets-1/1c01bd6fb616cfea26f25c6287d2d860d987ae63/src/widgets/guessWidget/que_icon.svg') !important;
   opacity: 0.5;
-  border-radius: 12px;
+  /* border-radius: 12px; */
 }
-.centertile{
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url('https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/guess3/src/widgets/guessWidget/center.png?raw=true');
+.centertile {
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-image: url('https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/guess3/src/widgets/guessWidget/center.png?raw=true') !important;
   opacity: 0.5;
-  border-radius: 12px;
-}
 
-.img1 {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url('https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-1.png?raw=true');
-  opacity: 0.5;
-  border-radius: 12px;
 }
-.img2 {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url('https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-2.png?raw=true');
-  opacity: 0.5;
-  border-radius: 12px;
-}
-.img3 {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url('https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-3.png?raw=true');
-  opacity: 0.5;
-  border-radius: 12px;
-}
-.img4 {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url('https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-4.png?raw=true');
-  opacity: 0.5;
-  border-radius: 12px;
-}
-.img5 {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url('https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-5.png?raw=true');
-  opacity: 0.5;
-  border-radius: 12px;
-}
-.img6 {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url('https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-6.png?raw=true');
-  opacity: 0.5;
-  border-radius: 12px;
-}
-.img7 {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url('https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-7.png?raw=true');
-  opacity: 0.5;
-  border-radius: 12px;
-}
-.img8 {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url('https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/quessWidget-new-design/src/widgets/guessWidget/img-8.png?raw=true');
-  opacity: 0.5;
-  border-radius: 12px;
-}
-
 
 
 .front {
   background: rgba(255, 0, 0, 0.25);
-  background-size: cover;
+  /* background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   background-image: url('https://raw.githubusercontent.com/boomio-api-v2/final-combined-wdigets-1/1c01bd6fb616cfea26f25c6287d2d860d987ae63/src/widgets/guessWidget/que_icon.svg');
-  opacity: 0.5;
+  opacity: 0.5; */
   border-radius: 12px;
 }
 
@@ -605,8 +539,8 @@
   -webkit-transform: rotateY(0deg) translateZ(var(--uncolored-size));
   -moz-transform: rotateY(0deg) translateZ(var(--uncolored-size));
   animation-name: show-back;
-  animation-duration: 3s;
-  animation-delay: 0.5s;
+  animation-duration: 1s;
+  animation-delay: 0.3s;
   animation-fill-mode: backwards;
   animation-iteration-count: 1;
 
