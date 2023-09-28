@@ -49,6 +49,7 @@ class BoomioService extends UserService {
   };
 
   setInitialConfiguration() {
+    console.log('dont mind me just testing cloudflare');
     this.config = localStorageService.getDefaultConfig();
     const isTimeout = new Date(this.config.boomioStopTill).getTime() > new Date().getTime();
     if (!isTimeout) {
