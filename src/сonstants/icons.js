@@ -130,3 +130,7 @@ export const BoomioBubblesGif = [
 export const BoomioBubbles = [
   'https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/feature/claw-machine-auto/images/Bubbles/Boomio_bubble_hint_image.png?raw=true',
 ];
+
+export const startBackground = [
+  'https://github.com/boomio-api-v2/final-combined-wdigets-1/blob/feature/claw-machine-auto/images/startWidget/background.svg?raw=true',
+];

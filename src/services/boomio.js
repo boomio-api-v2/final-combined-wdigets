@@ -67,16 +67,13 @@ class BoomioService extends UserService {
           if (content?.widget_type && content.instruction !== 'stop') {
             this.loadWidget(content.widget_type);
           } else if (localStorage.getItem('testing_Widgets')) {
-            this.loadWidget('testing');
+            this.loadWidget('start_widget');
           } else if (
             localStorage.getItem('closing_button') &&
             localStorage.getItem('closing_button') !== 'false' &&
             localStorage.getItem('start_widget') &&
             localStorage.getItem('start_widget') !== 'false'
           ) {
-            console.log(localStorage.getItem('closing_button'));
-            console.log(localStorage.getItem('start_widget'));
-
             this.loadWidget('start_widget');
           }
           this.config = localStorageService.getDefaultConfig();
