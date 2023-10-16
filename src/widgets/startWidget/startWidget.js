@@ -16,13 +16,15 @@ class StartWidget {
       'boomio--animation__wrapper--initial',
       'box',
     );
-    startWidgetContainer.style.right = position.right;
-    startWidgetContainer.style.bottom = position.bottom;
+    var newRightValue = window.innerWidth * (parseFloat(position.right) / 100) - 280;
+    startWidgetContainer.style.right = newRightValue + 'px';
+
+    startWidgetContainer.style.bottom = '45px';
     const { secondary_text, top_text, hint_static_text, button_text, under_picture_text } =
       localStorageService.config;
-
+    console.log('test');
     startWidgetContainer.innerHTML = `
-      <div class='position-relative product-design-bg-2 Preview-select' style='display:none;max-height: 167px;width: 485px; padding: 20px 22px;position:relative;box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); fill: linear-gradient(180deg, #598BF3 0%, #8559F3 49.48%, #C52866 100%);' id='start_widget'>
+      <div style='display:none;max-height: 167px;width: 240px; padding: 20px 22px;position:relative;' id='start_widget'>
         <div class='close_button align-right'>
           <img src='${closeIcon}' width='30' height='30' alt='' id="close_div_img">
         </div>
@@ -36,6 +38,7 @@ class StartWidget {
         </div>
       </div>
     `;
+
     widgetHtmlService.container.appendChild(startWidgetContainer);
     function closeModalDiscount() {
       const element = document.getElementById('start_widget');
@@ -44,6 +47,10 @@ class StartWidget {
       localStorage.setItem('start_signal', true);
       if (localStorage.getItem('start_signal')) {
         boomioService.signal('START_OK');
+      }
+      const bubblElement = document.getElementById('boomio-widget-screen-wrapper-content');
+      if (bubblElement) {
+        bubblElement.remove();
       }
     }
 

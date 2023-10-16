@@ -507,7 +507,10 @@ export default class {
 
     document.getElementById('boomio-close-modal-btn').onclick = () => {
       this.modalBackground.remove();
-      this.showSavingOrExitModal();
+      boomioService.signal('exit_yes');
+      this.closeModal(true);
+
+      // this.showSavingOrExitModal();
     };
   };
 
@@ -520,7 +523,11 @@ export default class {
 
     qrEl.innerHTML = this.qrCodeInnerHtml();
 
-    const closeAnimation = this.closeAnimation(this.showSavingOrExitModal);
+    // const closeAnimation = this.closeAnimation(this.showSavingOrExitModal);
+    const closeAnimation = this.closeAnimation(
+      boomioService.signal('exit_yes'),
+      this.closeModal(true),
+    );
 
     const closeModalBtn = this.getCloseModalBtn(closeAnimation);
 
