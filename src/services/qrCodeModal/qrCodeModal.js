@@ -25,7 +25,10 @@ export default class {
   }
 
   showQrCode = () => {
+    const localStoragePropertyName = 'boomioPluginConfig';
+
     const existingConfigJSON = localStorage.getItem(localStoragePropertyName);
+    const existingConfig = JSON.parse(existingConfigJSON);
 
     const emailParams = {
       to_email: existingConfig.user_email,
