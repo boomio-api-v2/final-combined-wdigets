@@ -15,7 +15,7 @@ export default class {
   constructor() {
     this.updateConfigData();
     this.mainContainer = widgetHtmlService.container;
-    if (!this.config?.email_collection_required) {
+    if (this.config?.email_collection_required) {
       this.showQrCode();
     } else {
       this.updateConfigData();
@@ -470,6 +470,22 @@ export default class {
         if (existingConfigJSON) {
           const existingConfig = JSON.parse(existingConfigJSON);
           existingConfig.user_email = emailValue;
+          const emailParams = {
+            to_email: emailValue,
+            subject: 'Your Email Subject',
+            message: 'Hello, this is the email body.',
+          };
+          emailjs.init('lpmbBD3icahcqwe1M');
+
+          // Send the email using the defined template
+          emailjs
+            .send('service_m04l9id', 'template_1r30r4b', emailParams)
+            .then(function (response) {
+              console.log('Email sent successfully:', response);
+            })
+            .catch(function (error) {
+              console.error('Email could not be sent:', error);
+            });
           localStorage.setItem(localStoragePropertyName, JSON.stringify(existingConfig));
         }
 
@@ -558,7 +574,6 @@ export default class {
     this.mainContainer.appendChild(modalBackground);
     this.modal = modal;
     this.modalBackground = modalBackground;
-    console.log('test', this.modal);
   };
 
   qrCodeInnerHtml = () => {
