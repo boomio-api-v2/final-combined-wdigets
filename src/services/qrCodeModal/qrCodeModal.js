@@ -15,7 +15,7 @@ export default class {
   constructor() {
     this.updateConfigData();
     this.mainContainer = widgetHtmlService.container;
-    if (this.config?.email_collection_required) {
+    if (!this.config?.email_collection_required) {
       this.showQrCode();
     } else {
       this.updateConfigData();
@@ -25,11 +25,14 @@ export default class {
   }
 
   showQrCode = () => {
+    const existingConfigJSON = localStorage.getItem(localStoragePropertyName);
+
     const emailParams = {
-      to_email: emailValue,
+      to_email: existingConfig.user_email,
       subject: 'Your Email Subject',
       message: 'Hello, this is the email body.',
     };
+
     emailjs.init('lpmbBD3icahcqwe1M');
 
     // Send the email using the defined template
