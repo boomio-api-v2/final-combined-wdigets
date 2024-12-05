@@ -16,3 +16,7 @@ export * from './hedgehogWidget';
 export * from './pacmanWidget';
 export * from './flappyBird';
 export * from './doodleWidget';
+export * from './driveWidget';
+export * from './catchWidget';
+export * from './runnerWidget';
+export * from './footballWidget';

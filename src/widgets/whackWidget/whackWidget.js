@@ -55,7 +55,7 @@ class WhackWidget {
     myCanvas.classList.add('boomio--animation__wrapper', 'boomio--animation__wrapper--initial');
 
     myCanvas.innerHTML = `
-      <div class="game-container">
+      <div class="game-container-whack">
         <div class="boomio-mole" id="${moleId}">
           <img class="boomio-mole-image boomio-mole-image1" src="${WhackMole01}" alt="Mole">
           <img class="boomio-mole-image boomio-mole-image2" src="${WhackMole01Reversed}" alt="Mole" style="display: none;">
@@ -78,7 +78,7 @@ class WhackWidget {
   }
 
   addCardEventListeners() {
-    const gameContainer = document.querySelector('.game-container');
+    const gameContainer = document.querySelector('.game-container-whack');
     const moles = gameContainer.querySelectorAll('.boomio-mole');
     const moleCount = moles.length;
 
@@ -123,7 +123,7 @@ class WhackWidget {
 
       setTimeout(() => {
         mole?.classList.remove('boomio-whack-appear');
-      }, 700); //1300
+      }, 600); //1300
       createHammer();
     };
 
@@ -131,25 +131,36 @@ class WhackWidget {
       const mole = document.querySelector('.boomio-mole');
       if (!mole.classList.contains('boomio-mole-hit-once')) {
         mole.classList.add('boomio-whack-disappear');
+
         const src = WhackMole01Reversed;
         if (whacked) {
           mole.classList.add('boomio-mole-hit-once');
         }
         imageElement.classList.add('hide');
-        imageElement.src = src;
 
-        // To ensure smooth transition, we use setTimeout to toggle classes after a small delay
+        // Hide the element until the new source is fully set
+        imageElement.style.visibility = 'hidden';
+
+        // Clear the src attribute to prevent the previous GIF from briefly restarting
+
+        // Set the new GIF source after a short delay
         setTimeout(() => {
-          imageElement.classList.remove('hide');
-          imageElement.classList.add('show');
-        }, 50);
+          console.log(imageElement.src);
+          imageElement.src = src;
+          // To ensure smooth transition, we use setTimeout to toggle classes after a small delay
+          setTimeout(() => {
+            imageElement.classList.remove('hide');
+            imageElement.classList.add('show');
+            imageElement.style.visibility = 'visible'; // Show the element after setting the new source
+          }, 50);
+        }, 10); // You can adjust the delay time if necessary
 
         setTimeout(() => {
           mole.classList.remove('boomio-whack-disappear');
           if (whacked) {
             mole.style.display = 'none';
           }
-        }, 700); //1300
+        }, 1300); //1300
       }
     };
 
@@ -237,7 +248,6 @@ class WhackWidget {
     };
 
     const whackMole = (event) => {
-      // console.log('event ===', event.target.classList);
       function moleHit(imageElement) {
         boomio.signal('hammer_click', 'signal', {
           widget_type: 'whack',

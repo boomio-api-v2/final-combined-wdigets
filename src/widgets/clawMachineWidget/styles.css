@@ -2,12 +2,12 @@
   position: fixed; /* Use position: fixed to make it relative to the viewport */
   top: 0px; /* Position it at 100 pixels from the top of the viewport */
   left: 50px; /* Position it at the left of the viewport */
-  width: 82px; /* Set the width of the custom-div */
-  height: 202px; /* Set the height of the custom-div */
+  width:83px; /* Set the width of the custom-div */
+  height:220px; /* Set the height of the custom-div */
+  margin-top:-15px;
 z-index: 9999999999999;
 }
-
-
+ 
 .claw-div {
   z-index: 9999999999999;
   position: fixed; /* Use position: fixed to make it relative to the viewport */
@@ -51,8 +51,8 @@ z-index: 9999999999999;
     position: fixed; /* Use position: fixed to make it relative to the viewport */
     top: 0px; /* Position it at 100 pixels from the top of the viewport */
     left: 25px; /* Position it at the left of the viewport */
-    width: 62px; /* Set the width of the custom-div */
-    height: 190px; /* Set the height of the custom-div */
+    width: 82px; /* Set the width of the custom-div */
+    height: 207px; /* Set the height of the custom-div */
   }
 
   

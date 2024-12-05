@@ -8,7 +8,7 @@
 
 .modal-buttons button {
     border-radius: 32px;
-    width: 116px;
+    width: 130px;
     height: 40px;
     outline: none;
     border: none;
@@ -16,7 +16,8 @@
 }
 
 .modal-buttons .save {
-    background: linear-gradient(41.01deg, #FF6E6D 0%, #FF3183 5.48%, #598BF3 88.77%, #657BEA 95.23%, #34B0DC 101.49%);
+    background: transparent;    border:1px solid white;
+
     font-weight: 600;
     font-size: 16px;
     line-height: 24px;
@@ -28,7 +29,8 @@
     font-weight: 600;
     font-size: 16px;
     line-height: 24px;
-    background: linear-gradient(41.01deg, #FF6E6D 0%, #FF3183 5.48%, #598BF3 88.77%, #657BEA 95.23%, #34B0DC 101.49%);
+    background: transparent;    border:1px solid white;
+
     background-clip: text;
     text-fill-color: transparent;
     padding: 2px;
@@ -43,7 +45,8 @@
     line-height: 24px;
     background: white;
     background-clip: text;
-    color: linear-gradient(41.01deg, #FF6E6D 0%, #FF3183 5.48%, #598BF3 88.77%, #657BEA 95.23%, #34B0DC 101.49%);
+    color: transparent;
+    border:1px solid white;
     text-fill-color: transparent;
 }
 
@@ -131,3 +134,18 @@
     display: block;
   }
   
+  #boomio-textfield-first-name::placeholder {
+    color: #37676D;
+  }
+  
+  #boomio-textfield-first-name::-ms-input-placeholder { /* Edge 12 -18 */
+    color: #37676D;
+  }
+
+  #boomio-textfield-email::placeholder {
+    color: #37676D;
+  }
+  
+  #boomio-textfield-email::-ms-input-placeholder { /* Edge 12 -18 */
+    color: #37676D;
+  }

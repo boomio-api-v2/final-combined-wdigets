@@ -8,7 +8,12 @@ import {
 import './styles.css';
 import { CompetitionScoreTableContainer } from '../helpers/CompetitionScoreTableContainer';
 import { InputRegisterContainer } from '../helpers/InputRegisterContainer';
+import { PointScoreTableContainer } from '../helpers/PointScoreTableContainer';
 import { InputContainer } from '../helpers/InputContainer';
+import { CollectionScoreTableContainer } from '../helpers/CollectionScoreTableContainer';
+import { PointCopyTableContainer } from '../helpers/PointCopyTableContainer';
+import { DownloadScoreTableContainer } from '../helpers/DownloadScoreTableContainer';
+
 import {
   close,
   introGif,
@@ -18,21 +23,58 @@ import {
   uncheckIcon,
   mainBarbora,
   mainPenki,
+  star,
   introGifPenki,
   scoreImageGreen,
-  mainBabune,
-  scoreImageBabune,
+  mainFantazijos,
+  scoreImageFantazijos,
+  introGifFantazijos,
+  newRecord,
+  newRecordRU,
+  newRecordEE,
+  newRecordLV,
+  snowFantazijos,
+  FproFlappyScore,
+  FproFlappyIntro,
+  FproFlappyBackground,
+  MakaliusFlappyScore,
+  MakaliusFlappyIntro,
+  MakaliusFlappyBackground,
+  introGifFantazijosLV,
+  introGifFantazijosEE,
+  introGifFantazijosRU,
+  CorepetitusFlappyIntro,
+  CorepetitusFlappyBackground,
+  CorepetituslappyScore,
+  newRecordEn,
+  SaludSAIntro,
+  SaludSABackground,
+  SaludSARecord,
 } from './constants';
 class FlappyBird {
   constructor() {
     this.config = localStorageService.getDefaultConfig();
     this.gameClosed = false;
-    this.showCompetitiveRegistration = this.config.game_type ?? 'competitive';
+    this.showCompetitiveRegistration =
+      this?.config?.game_type !== '' ? this.config.game_type : 'points';
     this.userBestPlace = 0;
     this.scoreTable = {};
     this.isJumping = false;
-    this.customer = this.config.business_name ? this.config.business_name : 'Penki Sezonai';
-    this.startFlappy();
+    this.customer = this.config.business_name ? this.config.business_name : 'SaludSA';
+    this.language = this.config.language ? this.config.language : 'ES';
+
+    this.collectables = this.config.collectables ? this.config.collectables : [];
+    this.collection = this.config.collection ? this.config.collection : [];
+    this.just_won = this.config.just_won ? this.config.just_won : null;
+
+    if (this.customer === 'Fpro') {
+      setTimeout(() => {
+        this.startFlappy();
+      }, 8000);
+    } else {
+      this.startFlappy();
+    }
+
     this.gameStarted = false;
     this.bestScore = 0;
     this.discount = '0%';
@@ -41,13 +83,16 @@ class FlappyBird {
     this.isMobile = window.innerWidth <= 768;
     this.newHighScoreReached = false;
     this.scoreTableContainerInstance;
+    const params = new URLSearchParams(window.location.search);
+
+    this.game_code = params.get('game_code');
   }
 
   startFlappy() {
     this.config = localStorageService.getDefaultConfig();
     this.createContainer();
 
-    this.checkboxChange = true;
+    this.checkboxChange = false;
 
     this.flappy = document.getElementById('boomio-flappy-container');
 
@@ -70,10 +115,18 @@ class FlappyBird {
     const img = new Image();
 
     img.src =
-      this.customer === 'Barbora'
+      this.customer === 'SaludSA'
+        ? SaludSABackground
+        : this.customer === 'Barbora'
         ? mainBarbora
-        : this.customer === 'Babune'
-        ? mainBabune
+        : this.customer === 'Fantazijos'
+        ? mainFantazijos
+        : this.customer === 'Fpro'
+        ? FproFlappyBackground
+        : this.customer === 'Makalius'
+        ? MakaliusFlappyBackground
+        : this.customer === 'Corepetitus'
+        ? CorepetitusFlappyBackground
         : mainPenki;
 
     // img.src = 'https://i.ibb.co/MP91zG9/Spring-2.png';
@@ -85,7 +138,7 @@ class FlappyBird {
     img3.src = 'https://i.ibb.co/xq7Yf83/Boomio-demo-3-1.png';
 
     const snowImg = new Image();
-    snowImg.src = 'https://i.ibb.co/qrM7nV8/giphy-4.gif';
+    snowImg.src = snowFantazijos;
 
     let snowOffset = 0; // Initial offset for snow GIF animation
     let snowSpeed = 0.4; // Adjust the this.speed of the falling snow
@@ -116,7 +169,6 @@ class FlappyBird {
       this.gravity = 0.3;
       this.flight = this.jump / 2;
 
-      // console.log('stars');
       const new_highscore = document.querySelector('.new_highscore');
       const new_highscore_stars = document.querySelector('.new_highscore_stars');
       const numbers = document.querySelector('.numbers');
@@ -127,7 +179,6 @@ class FlappyBird {
       new_highscore.style.opacity = 0;
       new_highscore_stars.style.transition = 'opacity 0.5s ease';
       new_highscore_stars.style.opacity = 0;
-      // console.log('remove stars');
 
       setTimeout(() => {
         new_highscore.style.display = 'none';
@@ -140,32 +191,34 @@ class FlappyBird {
         document.getElementById('flappy-canvas').style.opacity = 1;
 
         if (this.gameCount === 0) {
-          if (this.showCompetitiveRegistration) {
+          if (
+            this.showCompetitiveRegistration === 'competition' ||
+            this.showCompetitiveRegistration === 'points' ||
+            this.showCompetitiveRegistration === 'collectable'
+          ) {
             const checkboxImg = document.querySelector('.boomio-privacyCheckbox');
             checkboxImg.addEventListener('click', () => {
               this.checkboxChange = !this.checkboxChange;
               const checkboxImgChange = document.getElementById('privacyCheckboxImg');
               checkboxImgChange.src = this.checkboxChange ? checkIcon : uncheckIcon;
             });
-            const emailInput = document.querySelector('.boomio-competition-email-input-field');
-            const playerNameInput = document.querySelector('.boomio-competition-name-input-field');
-            emailInput.addEventListener('input', () => {});
-            playerNameInput.addEventListener('input', () => {});
             setTimeout(() => {
-              const canvas = document.getElementById('flappy-canvas');
-              document.getElementById('background_blur').style.opacity = 0.37;
-              canvas.style.transition = 'filter 0.6s ease';
-              canvas.style.filter = 'blur(2px)';
+              if (this.customer !== 'SaludSA') {
+                const canvas = document.getElementById('flappy-canvas');
+                document.getElementById('background_blur').style.opacity = 0.37;
+                canvas.style.transition = 'filter 0.6s ease';
+                canvas.style.filter = 'blur(2px)';
 
-              const inpuRegisterContainer = document.querySelector('.input-register-container');
-              inpuRegisterContainer.style.transition =
-                'height 1s ease, top 1s ease, opacity 1s ease';
-              inpuRegisterContainer.style.display = 'block';
-              setTimeout(() => {
-                inpuRegisterContainer.style.height = '528px';
-                inpuRegisterContainer.style.top = 'calc(50% + 74px)';
-                inpuRegisterContainer.style.opacity = 1;
-              }, 100);
+                const inpuRegisterContainer = document.querySelector('.input-register-container');
+                inpuRegisterContainer.style.transition =
+                  'height 1s ease, top 1s ease, opacity 1s ease';
+                inpuRegisterContainer.style.display = 'block';
+                setTimeout(() => {
+                  inpuRegisterContainer.style.height = '528px';
+                  inpuRegisterContainer.style.top = 'calc(50% + 74px)';
+                  inpuRegisterContainer.style.opacity = 1;
+                }, 100);
+              }
             }, 300);
           } else {
             setTimeout(() => {
@@ -210,7 +263,7 @@ class FlappyBird {
             background.style.display = 'none';
           }
         }, 2000);
-      }, 3500);
+      }, 3000);
       //gifas
       // flyHeight = canvas.height / 2 - size[1] / 2;
       pipes = [[canvas.width, pipeLoc()]];
@@ -227,6 +280,25 @@ class FlappyBird {
       elapsedTime = (currentTime - lastUpdateTime) / 1000; // Convert to seconds
       lastUpdateTime = currentTime;
     };
+
+    function hideScore() {
+      const new_highscore = document.querySelector('.new_highscore');
+      const new_highscore_stars = document.querySelector('.new_highscore_stars');
+      const numbers = document.querySelector('.numbers');
+
+      numbers.style.transition = 'opacity 0.5s ease';
+      numbers.style.opacity = 0;
+      new_highscore.style.transition = 'opacity 0.5s ease';
+      new_highscore.style.opacity = 0;
+      new_highscore_stars.style.transition = 'opacity 0.5s ease';
+      new_highscore_stars.style.opacity = 0;
+
+      setTimeout(() => {
+        new_highscore.style.display = 'none';
+        new_highscore_stars.style.display = 'none';
+        numbers.style.display = 'none';
+      }, 500);
+    }
 
     const render = () => {
       if (!this.gameClosed) {
@@ -256,6 +328,15 @@ class FlappyBird {
         );
 
         if (this.gamePlaying) {
+          if (canvas.width > 450 || canvas.height < 600) {
+            canvas.width =
+              document.body.offsetWidth < 418
+                ? document.body.offsetWidth < 321
+                  ? '375px'
+                  : document.body.offsetWidth
+                : '418';
+            canvas.height = '668';
+          }
           pipes.map((pipe) => {
             // pipe moving
             pipe[0] -= this.speed;
@@ -264,7 +345,7 @@ class FlappyBird {
             ctx.drawImage(
               img,
               419,
-              595 - pipe[1],
+              604 - pipe[1],
               pipeWidth,
               pipe[1],
               pipe[0],
@@ -297,7 +378,6 @@ class FlappyBird {
                 currectScoreDiv.style.display = 'block';
                 currectScoreDiv.style.opacity = 1;
               }
-
               if (this.bestScore < this.currentScore) {
                 this.newHighScoreReached = true;
               }
@@ -335,37 +415,112 @@ class FlappyBird {
                   .getElementById('startButtonClick1')
                   .addEventListener('click', this.clickEventHandlerButton);
 
-                document
-                  .getElementById('claimReward')
-                  .addEventListener('click', this.clickEventHandlerClaimButton);
-
                 this.gameCount++;
               }
 
               setTimeout(
                 () => {
-                  const inputContainer = document.querySelector('.input-container1');
-                  if (this.showCompetitiveRegistration) {
+                  if (
+                    this.showCompetitiveRegistration === 'competition' ||
+                    this.showCompetitiveRegistration === 'points' ||
+                    this.showCompetitiveRegistration === 'collectable'
+                  ) {
+                    const clickEventHandlerResetGame = () => {
+                      this.index = 0;
+                      this.currentScore = 0;
+
+                      const competitionTableContainer = document.querySelector(
+                        '.competition-table-container',
+                      );
+
+                      competitionTableContainer.style.transition =
+                        'height 1s ease, top 1s ease, opacity 1s ease';
+                      setTimeout(() => {
+                        competitionTableContainer.style.height = '10px';
+                        competitionTableContainer.style.top = 'calc(50% + 330px)';
+                        competitionTableContainer.style.opacity = 0;
+                      }, 100);
+                      setTimeout(() => {
+                        competitionTableContainer.style.display = 'none';
+                      }, 1000);
+
+                      setTimeout(() => {
+                        if (
+                          this.showCompetitiveRegistration === 'competition' ||
+                          this.showCompetitiveRegistration === 'points' ||
+                          this.showCompetitiveRegistration === 'collectable'
+                        ) {
+                          boomioService
+                            .signal('ROUND_STARTED', 'signal')
+                            .then((response) => {
+                              document.getElementById('background_blur').style.display = 'none';
+                              const canvas = document.getElementById('flappy-canvas');
+                              canvas.style.transition = 'filter 1s ease';
+                              canvas.style.filter = 'none';
+                              this.gamePlaying = true;
+                            })
+                            .catch((error) => {
+                              console.error('Error:', error);
+                            });
+                        }
+                      }, 400);
+                    };
+                    hideScore();
                     boomioService
                       .signal('ROUND_FINISHED', 'signal', {
                         score: this.currentScore,
                       })
                       .then((response) => {
+                        hideScore();
                         this.userBestPlace = response.user_best_place;
+                        if (this.showCompetitiveRegistration === 'points') {
+                          this.scoreTable = response;
+                          this.scoreTableContainerInstance.updateProps(
+                            this.customer,
+                            this.scoreTable,
+                            this.currentScore,
+                          );
+                          const competitionRestart =
+                            document.getElementById('boomio-game-play-again');
+                          competitionRestart.addEventListener('click', clickEventHandlerResetGame);
+                        }
 
-                        this.scoreTable = response;
-
-                        this.scoreTableContainerInstance.updateProps(
-                          this.customer,
-                          this.scoreTable,
-                        );
+                        if (this.showCompetitiveRegistration === 'competition') {
+                          this.scoreTable = response;
+                          this.scoreTableContainerInstance.updateProps(
+                            this.customer,
+                            this.scoreTable,
+                          );
+                        }
+                        if (this.showCompetitiveRegistration === 'collectable') {
+                          if (this.customer !== 'Corepetitus') {
+                            this.collection = response?.collection
+                              ? response?.collection
+                              : this.collection;
+                            this.just_won = response?.just_won ? response?.just_won : this.just_won;
+                            this.scoreTableContainerInstance.updateProps(
+                              this.customer,
+                              this.collectables,
+                              this.collection,
+                              this.just_won,
+                            );
+                          }
+                        }
+                        if (this.customer === 'Corepetitus') {
+                          this.scoreTable = response;
+                          this.scoreTableContainerInstance.updateProps(
+                            this.customer,
+                            this.scoreTable,
+                            this.currentScore,
+                          );
+                        }
                       })
                       .catch((error) => {
                         console.error('Error:', error);
                       });
                   }
 
-                  if (this.showCompetitiveRegistration) {
+                  if (this.showCompetitiveRegistration === 'competition') {
                     const canvas = document.getElementById('flappy-canvas');
                     const competitionTableContainer = document.querySelector(
                       '.competition-table-container',
@@ -390,16 +545,19 @@ class FlappyBird {
                     }, 300);
                   } else {
                     const canvas = document.getElementById('flappy-canvas');
+                    const competitionTableContainer = document.querySelector(
+                      '.competition-table-container',
+                    );
                     canvas.style.transition = 'filter 0.6s ease';
                     canvas.style.filter = 'blur(2px)';
                     document.getElementById('background_blur').style.display = 'block';
-                    inputContainer.style.transition =
+                    competitionTableContainer.style.transition =
                       'height 1s ease, top 1s ease, opacity 1s ease';
-                    inputContainer.style.display = 'block';
+                    competitionTableContainer.style.display = 'block';
                     setTimeout(() => {
-                      inputContainer.style.height = '332px';
-                      inputContainer.style.top = 'calc(50% + 170px)';
-                      inputContainer.style.opacity = 1;
+                      competitionTableContainer.style.height = '680px';
+                      competitionTableContainer.style.top = 'calc(50%)';
+                      competitionTableContainer.style.opacity = 1;
                     }, 100);
                     const currectScoreDiv = document.getElementsByClassName(
                       'boomio-score-input-container',
@@ -419,15 +577,15 @@ class FlappyBird {
 
         if (this.gamePlaying) {
           if (this.isJumping) {
-            ctx.drawImage(img, 506, 0, 77, 80, cTenth, flyHeight, 77, 80);
+            ctx.drawImage(img, 506, 0, 80, 80, cTenth, flyHeight, 77, 80);
           } else {
-            ctx.drawImage(img, 424, 0, 77, 80, cTenth, flyHeight, 77, 80);
+            ctx.drawImage(img, 424, 0, 80, 80, cTenth, flyHeight, 77, 80);
           }
           this.flight += this.gravity;
           flyHeight = Math.min(flyHeight + this.flight, canvas.height - size[1]);
         } else {
           if (!this.newHighScoreReached) {
-            ctx.drawImage(img, 424, 0, 77, 80, cTenth, flyHeight, 77, 80);
+            ctx.drawImage(img, 424, 0, 80, 80, cTenth, flyHeight, 77, 80);
           }
 
           flyHeight = canvas.height / 2 - size[1] / 2 - 70;
@@ -482,6 +640,10 @@ class FlappyBird {
             // Update the score digits content
             const scoreString = this.currentScore.toString();
 
+            const initialMargin = 200;
+            const scoreLength = this.currentScore.toString().length;
+            const newMarginLeft = initialMargin - 30 * scoreLength;
+            numbers.style.marginLeft = `${newMarginLeft}px`;
             // Determine the number of leading zeros to hide
             let leadingZeros = 0;
             while (leadingZeros < scoreString.length && scoreString[leadingZeros] === '0') {
@@ -512,9 +674,9 @@ class FlappyBird {
           }
           ctx.font = 'bold 30px monospace';
         }
-        ctx.globalAlpha = 0.1; // Set transparency level (0 = fully transparent, 1 = fully opaque)
+        ctx.globalAlpha = 0.6; // Set transparency level (0 = fully transparent, 1 = fully opaque)
 
-        if (!this.gameEnded && this.customer === 'Barbora') {
+        if (!this.gameEnded && this.customer === '123') {
           ctx.drawImage(snowImg, 0, snowOffset, canvas.width, canvas.height);
           ctx.drawImage(snowImg, 0, snowOffset - canvas.height, canvas.width, canvas.height);
         }
@@ -539,6 +701,14 @@ class FlappyBird {
     setup();
     img.onload = render;
   }
+
+  closeGame = () => {
+    const element = document.getElementById('boomio-flappy-container');
+    if (element && element.parentNode) {
+      this.gameClosed = true;
+      element.parentNode.removeChild(element);
+    }
+  };
 
   createContainer = () => {
     const starImg = new Image();
@@ -568,17 +738,8 @@ class FlappyBird {
     const blurImage = new Image();
     blurImage.src = 'https://i.ibb.co/wrHgcn1/Blur-game-rules.png';
 
-    const tapImage = new Image();
-    tapImage.src = 'https://i.ibb.co/LdbY1B8/tap.png';
-
-    const introImage = new Image();
-    introImage.src = 'https://i.ibb.co/XFgPwS0/Winter-game-2024-intro.gif';
-
     const useCuponImage = new Image();
     useCuponImage.src = 'https://i.ibb.co/dGnFRp1/Button-use-it.png';
-
-    const newHighscoreImage = new Image();
-    newHighscoreImage.src = 'https://i.ibb.co/fdFppDg/New-best-score.png';
 
     const newHighscoreStarsImage = new Image();
     newHighscoreStarsImage.src = 'https://i.ibb.co/P43Lwwz/New-demo-best-score.gif';
@@ -599,30 +760,63 @@ class FlappyBird {
 
     myCanvas.innerHTML = `    
     <div class="game-container game-container-flappy">
+    <div id="hubspot-form-container" style="position:absolute;z-index:999999999999999999999999999999"></div>
 
     ${
-      this.showCompetitiveRegistration
+      this.showCompetitiveRegistration === 'competition' ||
+      this.showCompetitiveRegistration === 'points' ||
+      this.showCompetitiveRegistration === 'collectable'
         ? new InputRegisterContainer(this.customer).createInputRegisterContainer().outerHTML
         : ''
-    }
-
+    } 
 
     <img src=${
       endingBackground.src
     } alt="Image Description" style="z-index:1;width: 418px; height: 668px;position:absolute;opacity:0; pointer-events: none; display:none;" id="ending_background">
     </img>
     <img src=${blurImage.src} alt="Image Description" style="z-index:1;width: ${
-      document.body.offsetWidth < 418 ? document.body.offsetWidth + 'px' : '418px'
-    }; height: 668px;position:absolute;opacity:0;pointer-events: none; display:none;" id="background_blur">
+      document.body.offsetWidth < 418
+        ? document.body.offsetWidth < 321
+          ? '375px'
+          : document.body.offsetWidth + 'px'
+        : '418px'
+    };
+       height: 668px;position:absolute;opacity:0;pointer-events: none; display:none;" id="background_blur">
     </img>
           <img  style="z-index:1;width: ${
-            document.body.offsetWidth < 418 ? document.body.offsetWidth + 'px' : '418px'
+            document.body.offsetWidth < 418
+              ? document.body.offsetWidth < 321
+                ? '375px'
+                : document.body.offsetWidth + 'px'
+              : '418px'
           }; height: 668px;position:absolute;opacity:0;pointer-events: none; display:none;" id="snow_background_qr">
     </img>
     <img src=${
-      this.customer === 'Barbora' ? introGif : introGifPenki
+      this.customer === 'SaludSA'
+        ? SaludSAIntro
+        : this.customer === 'Barbora'
+        ? introGif
+        : this.customer === 'Fantazijos'
+        ? this.language === 'LV'
+          ? introGifFantazijosLV
+          : this.language === 'RU'
+          ? introGifFantazijosRU
+          : this.language === 'EE'
+          ? introGifFantazijosEE
+          : introGifFantazijos
+        : this.customer === 'Fpro'
+        ? FproFlappyIntro
+        : this.customer === 'Makalius'
+        ? MakaliusFlappyIntro
+        : this.customer === 'Corepetitus'
+        ? CorepetitusFlappyIntro
+        : introGifPenki
     } alt="Image Description" style="z-index:4;width: ${
-      document.body.offsetWidth < 418 ? document.body.offsetWidth + 'px' : '418px'
+      document.body.offsetWidth < 418
+        ? document.body.offsetWidth < 321
+          ? '375px'
+          : document.body.offsetWidth + 'px'
+        : '418px'
     }; height: 668px;position:absolute;pointer-events: none; display:block;" id="background_intro">
     </img>
     <a href="https://www.boomio.com/" style="position:absolute;margin-top:380px;margin-left:-340px">
@@ -636,7 +830,17 @@ class FlappyBird {
     } alt="Image Description" style="overflow: hidden;z-index:4;margin-top:-300px;display:none; height: 95px;position:absolute;pointer-events:none;" >
     </img>
     <div class="new_highscore"><img src=${
-      newHighscoreImage.src
+      this.customer === 'SaludSA'
+        ? SaludSARecord
+        : this.customer === 'Fpro'
+        ? newRecordEn
+        : this.language === 'EE'
+        ? newRecordEE
+        : this.language === 'LV'
+        ? newRecordLV
+        : this.language === 'RU'
+        ? newRecordRU
+        : newRecord
     } alt="Image Description" style="width: 100%; height: 100%;">
     </div>
     <div class="numbers">
@@ -655,30 +859,55 @@ class FlappyBird {
 <span class="numbers__window">
 <span class="numbers__window__digit numbers__window__digit--5" data-fake="8395216407" id="bestScore5"></span>
 </span>
-</div>
 
-<div style="left:calc(50% - 100px);position: absolute;z-index:999;pointer-events:none" class="tutorial">
-${
-  this.customer === 'Barbora' || this.customer === 'Penki Sezonai' || this.customer === 'Babune'
-    ? `<div style="gap:20px;display:flex;color: #FFF;text-shadow: 4px 4px 14px rgba(255, 255, 255, 0.41);font-family: Georama;font-size: 26px;font-weight: 900;line-height: 130%; /* 33.8px */ letter-spacing: -0.16px;text-transform: uppercase;">
-    <div>BAKST</div>
-    <div>BAKST</div>
-  </div><img src=${tapImageBarbora} alt="Image Description" style="margin-left:70px;width: 71px; height: 54px;">`
-    : `<img src=${tapImage.src} alt="Image Description" style="width: 53px; height: 34px;margin-left:-60px;position:absolute;top:-30px;margin-left:-26px"><img src=${tapImage.src} alt="Image Description" style="width: 53px; height: 34px;margin-left:-60px;position:absolute;top:-30px;margin-left:23px"><img src=${clickImg.src} alt="Image Description" style="width: 71px; height: 54px;">`
-}
+<span class="numbers__window">
+
+<span class="numbers__window__digit numbers__window__digit--6" data-fake="8395216407" id="bestScore6"></span>
+</span></div>
+
+<div style="position: absolute;z-index:999;pointer-events:none" class="tutorial">
+${`<div style="${
+  this.customer === 'Fpro' ? 'gap:50px' : 'gap:20px'
+};display:flex;color: #FFF;text-shadow: 4px 4px 14px rgba(255, 255, 255, 0.41);font-family: Georama;font-size: 26px;font-weight: 900;line-height: 130%; /* 33.8px */ letter-spacing: -0.16px;text-transform: uppercase;">
+    <div>${
+      this.language === 'LV'
+        ? 'KLIK'
+        : this.language === 'RU'
+        ? 'КЛИК'
+        : this.language === 'EE'
+        ? 'TAP'
+        : this.language === 'ES'
+        ? 'TAP'
+        : this.customer === 'Fpro'
+        ? 'TAP'
+        : this.customer === 'SaludSA'
+        ? 'TAP'
+        : 'BAKST'
+    }</div>
+    <div>${
+      this.language === 'LV'
+        ? 'KLIK'
+        : this.language === 'RU'
+        ? 'КЛИК'
+        : this.language === 'EE'
+        ? 'TAP'
+        : this.language === 'ES'
+        ? 'TAP'
+        : this.customer === 'Fpro'
+        ? 'TAP'
+        : this.customer === 'SaludSA'
+        ? 'TAP'
+        : 'BAKST'
+    }</div>
+  </div><img src=${tapImageBarbora} alt="Image Description" style="margin-left:50px;width: 71px; height: 54px;">`}
 
 </div>
       <div class="flappy-container">
-        <div class="boomio-score-input-container" style="display:none;width:188px;height">
-        <div style="width: 148px; height: 100%; position: relative; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex;">
-      <img src=${
-        this.customer === 'Barbora'
-          ? scoreImage
-          : this.customer === 'Babune'
-          ? scoreImageBabune
-          : scoreImageGreen
-      } alt="Image Description" style="width: 100%; height: 100%;"></img>
-      <div style="text-align: center; color: white; font-size: 20px; font-family: Poppins; font-weight: 900; word-wrap: break-word;position:absolute;left:70px;top:10px;z-index:3;line-height:30px;" id="currentScore"></div>
+            <div class="boomio-score-input-container" style="box-sizing:border-box;display:none;width:130px;box-shadow:0px 3px 6px 0px rgba(30, 30, 30, 0.30);height:40px;padding:7px;background:${'#C6152F'};border-radius:35px">
+    <div style="width: 148px;top:-15px;left:10px; height: 100%; position: relative; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex;">
+    <img src=${star} alt="Image Description" style="width: 20px; height: 20px;margin-top:18px"></img>
+
+  <div style="text-align: center; color: white; font-size: 20px; font-family:${'Georama'}; font-weight: 900; word-wrap: break-word;position:absolute;left:35px;top:15px;z-index:3;line-height:30px;" id="currentScore"></div>
 </div>
 </div>
 
@@ -688,13 +917,12 @@ ${
 
 
 ${new InputContainer(this.customer).createInputContainerDiv().outerHTML}
-
-
-
-
-     
         <div style="margin-top:255px; z-index:3;justify-content: center; align-items: center; gap: 24px;display:flex; width:${
-          document.body.offsetWidth < 418 ? document.body.offsetWidth + 'px' : '418px'
+          document.body.offsetWidth < 418
+            ? document.body.offsetWidth < 321
+              ? '375px'
+              : document.body.offsetWidth + 'px'
+            : '418px'
         };display:none;" class="control-button" id="control-button">
         <div id="startButtonClick" style="margin-left:27px;margin-right:27px;width: 100%; height: 100%; padding-left: 127px; padding-right: 127px; padding-top: 11px; padding-bottom: 11px; background: white; border-radius: 35px; overflow: hidden; justify-content: center; align-items: center; gap: 10px; display: inline-flex">
         <div style="text-align: center; color: #FF3183; font-size: 24px; font-family: Georama; font-weight: 700; line-height: 24px; word-wrap: break-word"><img src=${
@@ -703,7 +931,11 @@ ${new InputContainer(this.customer).createInputContainerDiv().outerHTML}
 </div>
 </div>
 <div class="input-container1" style="width:${
-      document.body.offsetWidth < 418 ? document.body.offsetWidth + 'px' : '418px'
+      document.body.offsetWidth < 418
+        ? document.body.offsetWidth < 321
+          ? '375px'
+          : document.body.offsetWidth + 'px'
+        : '418px'
     }">
 <div style="height: 100%; position: relative;  background: linear-gradient(166deg, rgba(220, 35, 110, 0.90) 9.98%, rgba(91, 104, 185, 0.90) 83.11%); border-top-left-radius: 30px; border-top-right-radius: 30px; backdrop-filter: blur(10px)">
   <div style="width: 100%; height: 63px; top: 25px; position: absolute; text-align: center; color: white; font-size: 48px; font-family: Georama; font-weight: 900; text-transform: uppercase; line-height: 62.40px; word-wrap: break-word">  <img src=${
@@ -721,38 +953,45 @@ ${new InputContainer(this.customer).createInputContainerDiv().outerHTML}
         playAgain.src
       } alt="Image Description"></div>
   </div>
-  <div id="claimReward" style="box-sizing:content-box;width: 127px; padding-left: 25px; padding-right: 25px; padding-top: 11px; padding-bottom: 11px; left: 220px; top: 255px; position: absolute; border-radius: 35px; overflow: hidden; border: 3px white solid; justify-content: center; align-items: center; gap: 10px; display: inline-flex">
-      <div style="line-height:24pxtext-align: center; color: white; font-size: 24px; font-family: Georama; font-weight: 700; line-height: 24px; word-wrap: break-word">CLAIM</div>
-  </div>
 
 
 
 </div>
         </div>
-        <div style="justify-content: center; align-items: center; gap: 24px;width:${
-          document.body.offsetWidth < 418 ? document.body.offsetWidth + 'px' : '418px'
-        };" class="control-button1">
-        <div  style="margin-left: 46px; margin-right: 46px; padding-top: 14px; padding-bottom: 14px; width:100%;background: linear-gradient(166deg, rgba(220, 35, 110, 0.90) 9.98%, rgba(91, 104, 185, 0.90) 83.11%); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 32px; border: 2px rgba(255, 255, 255, 0.20) solid; justify-content: center; align-items: center; gap: 8px; display: flex;">
-<div style="color: white; font-size: 25px; font-family: Poppins; font-weight: 900; line-height: 24px; letter-spacing: 0.25px; word-wrap: break-word;" id="startButton">Play</div>
-</div>
-</div>
-
-
-
+      
       </div>
-
-
-      
-      
       <canvas id="flappy-canvas" width=${
-        document.body.offsetWidth < 418 ? document.body.offsetWidth : '418'
+        document.body.offsetWidth < 418
+          ? document.body.offsetWidth < 321
+            ? '375px'
+            : document.body.offsetWidth + 'px'
+          : '418px'
       } height="668" class="flappy-game"></canvas>
     </div>
   `;
+    if (this.customer === 'SaludSA') {
+      const script = document.createElement('script');
+      script.setAttribute('charset', 'utf-8');
+      script.setAttribute('type', 'text/javascript');
+      script.src = '//js.hsforms.net/forms/embed/v2.js';
+
+      script.onload = () => {
+        // Set a timeout of 3 seconds before running the form creation
+        setTimeout(() => {
+          hbspt.forms.create({
+            portalId: '7925267',
+            formId: '28e79f2a-0a97-42ec-8a6d-a86db22e6bfa',
+            target: '#hubspot-form-container',
+          });
+        }, 3000); // 3000ms = 3 seconds
+      };
+
+      document.body.appendChild(script);
+    }
 
     widgetHtmlService.container.appendChild(myCanvas);
 
-    if (this.showCompetitiveRegistration) {
+    if (this.showCompetitiveRegistration === 'competition') {
       const gameContainer = document.querySelector('.game-container-flappy');
 
       this.scoreTableContainerInstance = new CompetitionScoreTableContainer(
@@ -762,94 +1001,261 @@ ${new InputContainer(this.customer).createInputContainerDiv().outerHTML}
       gameContainer.appendChild(this.scoreTableContainerInstance.containerDiv);
     }
 
-    if (this.showCompetitiveRegistration) {
+    if (this.showCompetitiveRegistration === 'points') {
+      if (this.customer === 'SaludSA') {
+        const gameContainer = document.querySelector('.game-container-flappy');
+
+        this.scoreTableContainerInstance = new DownloadScoreTableContainer(
+          this.customer,
+          this.scoreTable,
+        );
+        gameContainer.appendChild(this.scoreTableContainerInstance.containerDiv);
+      } else {
+        if (this.customer === 'Corepetitus') {
+          const gameContainer = document.querySelector('.game-container');
+
+          this.scoreTableContainerInstance = new PointCopyTableContainer(
+            this.customer,
+            this.scoreTable,
+            this.currentScore,
+          );
+          gameContainer.appendChild(this.scoreTableContainerInstance.containerDiv);
+        } else {
+          const gameContainer = document.querySelector('.game-container-flappy');
+
+          this.scoreTableContainerInstance = new PointScoreTableContainer(
+            this.customer,
+            this.scoreTable,
+            this.currentScore,
+          );
+          gameContainer.appendChild(this.scoreTableContainerInstance.containerDiv);
+        }
+      }
+    }
+    if (this.showCompetitiveRegistration === 'collectable') {
+      const gameContainer = document.querySelector('.game-container-flappy');
+      this.scoreTableContainerInstance = new CollectionScoreTableContainer(
+        this.customer,
+        this.collectables,
+        this.collection,
+        this.just_won,
+      );
+      gameContainer.appendChild(this.scoreTableContainerInstance.containerDiv);
+    }
+
+    if (
+      this.showCompetitiveRegistration === 'competition' ||
+      this.showCompetitiveRegistration === 'points' ||
+      this.showCompetitiveRegistration === 'collectable'
+    ) {
       const clickEventHandlerShowRules = () => {
         if (this.gameCount === 0) {
           setTimeout(() => {
-            const emailInput = document.querySelector('.boomio-competition-email-input-field');
-            const playerNameInput = document.querySelector('.boomio-competition-name-input-field');
+            if (this.customer !== 'SaludSA') {
+              const emailInput = document.querySelector('.boomio-competition-email-input-field');
+              const playerNameInput = document.querySelector(
+                '.boomio-competition-name-input-field',
+              );
+              const checkboxChange = this.customer === 'Fantazijos' ? true : this.checkboxChange;
+              const phone = document.querySelector('.boomio-competition-phone-input-field');
+              const phoneValue = phone?.value?.trim();
 
-            if (this.showCompetitiveRegistration && this.checkboxChange) {
-              boomioService
-                .signal('', 'user_info', {
-                  user_email: emailInput?.value,
-                  user_name: playerNameInput?.value,
-                })
-                .then((response) => {
-                  if (response.success === false) {
-                    if (response.res_code === 'EMAIL_EXIST') {
-                      document.getElementById('competition-email-error').innerText =
-                        'Šis el. pašto adresas jau egzistuoja. Naudokite kitą.';
-                      document.getElementById('competition-email-error').style.backgroundColor =
-                        '#FFBABA';
-                      document.getElementById('competition-email-error').style.border =
-                        '1px solid red';
+              if (!checkboxChange) {
+                document.getElementById('competition-checkbox-error').innerText =
+                  this.language === 'LV'
+                    ? 'Spēlētājam ir jāpiekrīt datu apstrādei, lai turpinātu.'
+                    : this.customer === 'SaludSA'
+                    ? 'Para continuar debes aaceptar recibir newsletters de SaludSA.'
+                    : 'Norint tęsti, privaloma sutikti su privatumo politika.';
+                document.getElementById('competition-checkbox-error').style.backgroundColor =
+                  '#FFBABA';
+                document.getElementById('competition-checkbox-error').style.display = 'block';
+                document.getElementById('competition-checkbox-error').style.height = '14px';
 
-                      document.getElementById('competition-name-error').innerText = '';
+                document.getElementById('competition-name-error').innerText = '';
 
-                      document.getElementById('competition-name-error').style.backgroundColor =
-                        'transparent';
-                      document.getElementById('competition-name-error').style.border = 'none';
-                    } else if (response.res_code === 'NAME_EXIST') {
-                      document.getElementById('competition-name-error').innerText =
-                        'Šis slapyvardis jau egzistuoja. Naudokite kitą.';
-                      document.getElementById('competition-name-error').style.backgroundColor =
-                        '#FFBABA';
-                      document.getElementById('competition-name-error').style.border =
-                        '1px solid red';
+                document.getElementById('competition-name-error').style.backgroundColor =
+                  'transparent';
 
-                      document.getElementById('competition-email-error').innerText = '';
-                      document.getElementById('competition-email-error').style.backgroundColor =
-                        'transparent';
-                      document.getElementById('competition-email-error').style.border = 'none';
-                    }
-                  } else {
-                    this.bestScore = response.user_best_score;
-                    const inpuRegisterContainer = document.querySelector(
-                      '.input-register-container',
-                    );
-                    inpuRegisterContainer.style.transition =
-                      'height 1s ease, top 1s ease, opacity 1s ease';
-                    setTimeout(() => {
-                      inpuRegisterContainer.style.height = '10px';
-                      inpuRegisterContainer.style.top = 'calc(50% + 330px)';
-                      inpuRegisterContainer.style.opacity = 0;
-                    }, 100);
-                    setTimeout(() => {
-                      inpuRegisterContainer.style.display = 'none';
-                    }, 1000);
-                    setTimeout(() => {
-                      const canvas = document.getElementById('flappy-canvas');
-                      document.getElementById('background_blur').style.opacity = 0.37;
-                      canvas.style.transition = 'filter 0.6s ease';
-                      canvas.style.filter = 'blur(2px)';
-                      const inputContainer = document.querySelector('.input-container');
-                      document.getElementById('control-button').style.transition =
-                        'opacity 2s ease';
-                      document.getElementById('control-button').style.opacity = 1;
-                      document.getElementById('control-button').style.display = 'flex';
-                      inputContainer.style.transition =
+                document.getElementById('competition-email-error').innerText = '';
+                document.getElementById('competition-email-error').style.backgroundColor =
+                  'transparent';
+                document.getElementById('competition-phone-error').innerText = '';
+                document.getElementById('competition-phone-error').style.backgroundColor =
+                  'transparent';
+              }
+
+              if (phone?.value === '' || (phone?.value === null && this.customer === 'SaludSA')) {
+                document.getElementById('competition-phone-error').innerText =
+                  'Para continuar debes agregar el número de teléfono.';
+                document.getElementById('competition-phone-error').style.backgroundColor =
+                  '#FFBABA';
+                document.getElementById('competition-name-error').innerText = '';
+                document.getElementById('competition-email-error').innerText = '';
+                document.getElementById('competition-email-error').style.backgroundColor =
+                  'transparent';
+                document.getElementById('competition-name-error').style.backgroundColor =
+                  'transparent';
+                document.getElementById('competition-checkbox-error').innerText = '';
+                document.getElementById('competition-checkbox-error').style.backgroundColor =
+                  'transparent';
+              }
+              if (emailInput?.value === '' || emailInput?.value === null) {
+                document.getElementById('competition-email-error').innerText =
+                  this.language === 'LV'
+                    ? 'Obligāti aizpildāmie lauki.'
+                    : this.customer === 'SaludSA'
+                    ? 'Para continuar debes agregar el correo electrónico.'
+                    : 'Norint tęsti privaloma užpildyti.';
+                document.getElementById('competition-email-error').style.backgroundColor =
+                  '#FFBABA';
+                document.getElementById('competition-name-error').innerText = '';
+
+                document.getElementById('competition-name-error').style.backgroundColor =
+                  'transparent';
+                document.getElementById('competition-checkbox-error').innerText = '';
+                document.getElementById('competition-checkbox-error').style.backgroundColor =
+                  'transparent';
+                document.getElementById('competition-phone-error').innerText = '';
+                document.getElementById('competition-phone-error').style.backgroundColor =
+                  'transparent';
+              }
+              if (
+                playerNameInput?.value === '' ||
+                playerNameInput?.value === null ||
+                (phone?.value === null && this.customer === 'SaludSA')
+              ) {
+                document.getElementById('competition-name-error').innerText =
+                  this.language === 'LV'
+                    ? 'Obligāti aizpildāmie lauki.'
+                    : this.customer === 'SaludSA'
+                    ? 'Para continuar debes agregar el nombre de usuario.'
+                    : 'Norint tęsti privaloma užpildyti.';
+                document.getElementById('competition-name-error').style.backgroundColor = '#FFBABA';
+
+                document.getElementById('competition-email-error').innerText = '';
+                document.getElementById('competition-email-error').style.backgroundColor =
+                  'transparent';
+                document.getElementById('competition-checkbox-error').innerText = '';
+                document.getElementById('competition-checkbox-error').style.backgroundColor =
+                  'transparent';
+                document.getElementById('competition-phone-error').innerText = '';
+                document.getElementById('competition-phone-error').style.backgroundColor =
+                  'transparent';
+              }
+            } else {
+              if (
+                this.customer === 'SaludSA' ||
+                ((this.showCompetitiveRegistration === 'competition' ||
+                  this.showCompetitiveRegistration === 'points' ||
+                  this.showCompetitiveRegistration === 'collectable') &&
+                  checkboxChange)
+              ) {
+                boomioService
+                  .signal('', 'user_info', {
+                    emails_consent: this.checkboxChange,
+                    user_email:
+                      this.customer === 'SaludSA' ? new Date().toISOString() : emailInput?.value,
+                    user_name:
+                      this.customer === 'SaludSA'
+                        ? new Date().toISOString()
+                        : playerNameInput?.value,
+                  })
+                  .then((response) => {
+                    if (response.success === false) {
+                      if (response.res_code === 'EMAIL_EXIST') {
+                        document.getElementById('competition-email-error').innerText =
+                          this.customer === 'Fpro'
+                            ? 'This email address already exists. Please use another one.'
+                            : this.language === 'LV'
+                            ? 'Šī e-pasta adrese jau eksistē. Izmantojiet citu.'
+                            : this.customer === 'SaludSA'
+                            ? 'Para continuar debes agregar el correo electrónico.'
+                            : this.language === 'ES'
+                            ? 'Este email ya está en uso. Use otro email.'
+                            : this.language === 'RU'
+                            ? 'Этот е-мейл адрес уже существует. Используйте другой.'
+                            : this.language === 'EE'
+                            ? 'See e-posti aadress on juba olemas. Kasutage teist.'
+                            : 'Šis el. pašto adresas jau egzistuoja. Naudokite kitą.';
+                        document.getElementById('competition-email-error').style.backgroundColor =
+                          '#FFBABA';
+
+                        document.getElementById('competition-name-error').innerText = '';
+
+                        document.getElementById('competition-name-error').style.backgroundColor =
+                          'transparent';
+                      } else if (response.res_code === 'NICKNAME_EXIST') {
+                        document.getElementById('competition-name-error').innerText =
+                          this.customer === 'Fpro'
+                            ? 'This nickname already exists. Please use another one.'
+                            : this.language === 'ES'
+                            ? 'Este nickname ya está en uso. Use otro nickname.'
+                            : this.language === 'LV'
+                            ? 'Šis segvārds jau pastāv. Izmantojiet citu.'
+                            : this.customer === 'SaludSA'
+                            ? 'Para continuar debes agregar el nombre de usuario.'
+                            : this.language === 'RU'
+                            ? 'Этот псевдоним уже существует. Используйте другой.'
+                            : this.language === 'EE'
+                            ? 'See hüüdnimi on juba olemas. Kasutage teist.'
+                            : 'Šis slapyvardis jau egzistuoja. Naudokite kitą.';
+                        document.getElementById('competition-name-error').style.backgroundColor =
+                          '#FFBABA';
+
+                        document.getElementById('competition-email-error').innerText = '';
+                        document.getElementById('competition-email-error').style.backgroundColor =
+                          'transparent';
+                      }
+                    } else {
+                      this.bestScore = response.user_best_score;
+                      const inpuRegisterContainer = document.querySelector(
+                        '.input-register-container',
+                      );
+                      inpuRegisterContainer.style.transition =
                         'height 1s ease, top 1s ease, opacity 1s ease';
-                      inputContainer.style.display = 'block';
                       setTimeout(() => {
-                        inputContainer.style.height = '332px';
-                        inputContainer.style.top = 'calc(50% + 170px)';
-                        inputContainer.style.opacity = 1;
+                        inpuRegisterContainer.style.height = '10px';
+                        inpuRegisterContainer.style.top = 'calc(50% + 330px)';
+                        inpuRegisterContainer.style.opacity = 0;
                       }, 100);
-                    }, 300);
-                  }
-                })
-                .catch((error) => {
-                  console.error('Error:', error);
-                });
+                      setTimeout(() => {
+                        inpuRegisterContainer.style.display = 'none';
+                      }, 1000);
+                      setTimeout(() => {
+                        const canvas = document.getElementById('flappy-canvas');
+                        document.getElementById('background_blur').style.opacity = 0.37;
+                        canvas.style.transition = 'filter 0.6s ease';
+                        canvas.style.filter = 'blur(2px)';
+                        const inputContainer = document.querySelector('.input-container');
+                        document.getElementById('control-button').style.transition =
+                          'opacity 2s ease';
+                        document.getElementById('control-button').style.opacity = 1;
+                        document.getElementById('control-button').style.display = 'flex';
+                        inputContainer.style.transition =
+                          'height 1s ease, top 1s ease, opacity 1s ease';
+                        inputContainer.style.display = 'block';
+                        setTimeout(() => {
+                          inputContainer.style.height = '332px';
+                          inputContainer.style.top = 'calc(50% + 170px)';
+                          inputContainer.style.opacity = 1;
+                        }, 100);
+                      }, 300);
+                    }
+                  })
+                  .catch((error) => {
+                    console.error('Error:', error);
+                  });
+              }
             }
           }, 300);
         }
       };
 
       const clickEventHandlerResetGame = () => {
-        const competitionRestart = document.getElementById('boomio-competition-play-again');
+        const competitionRestart = document.getElementById('boomio-game-play-again');
         competitionRestart.removeEventListener('click', clickEventHandlerResetGame);
+
         setTimeout(() => {
           competitionRestart.addEventListener('click', clickEventHandlerResetGame);
         }, 2000);
@@ -857,6 +1263,7 @@ ${new InputContainer(this.customer).createInputContainerDiv().outerHTML}
         const controlButton = document.querySelector('.control-button1');
         this.index = 0;
         this.currentScore = 0;
+
         const competitionTableContainer = document.querySelector('.competition-table-container');
 
         competitionTableContainer.style.transition = 'height 1s ease, top 1s ease, opacity 1s ease';
@@ -870,7 +1277,11 @@ ${new InputContainer(this.customer).createInputContainerDiv().outerHTML}
         }, 1000);
 
         setTimeout(() => {
-          if (this.showCompetitiveRegistration) {
+          if (
+            this.showCompetitiveRegistration === 'competition' ||
+            this.showCompetitiveRegistration === 'points' ||
+            this.showCompetitiveRegistration === 'collectable'
+          ) {
             boomioService
               .signal('ROUND_STARTED', 'signal')
               .then((response) => {
@@ -892,7 +1303,52 @@ ${new InputContainer(this.customer).createInputContainerDiv().outerHTML}
       const competitionConfirmField = document.getElementById('boomio-competition-confirm-field');
       competitionConfirmField.addEventListener('click', clickEventHandlerShowRules);
 
-      const competitionRestart = document.getElementById('boomio-competition-play-again');
+      if (this.customer === 'SaludSA') {
+        const waitForIframe = setInterval(() => {
+          const iframe = document.getElementById('hs-form-iframe-0');
+
+          const form = document.querySelector('hbspt-form');
+          if (form) {
+            iframe.style.maxHeight = '400px';
+            iframe.style.overflow = 'auto';
+          }
+          if (iframe) {
+            clearInterval(waitForIframe);
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            const form = iframeDoc.querySelector('form');
+            if (form) {
+              console.log(form);
+              form.style.height = '500px';
+              form.style.overflow = 'auto';
+
+              // Observer for changes within the iframe's document
+              const observer = new MutationObserver((mutationsList) => {
+                for (const mutation of mutationsList) {
+                  if (mutation.type === 'childList') {
+                    // Check if the "Gracias por enviar el formulario" message is in the iframe's document
+                    const message = iframeDoc.body.innerText || iframeDoc.body.textContent;
+                    if (message.includes('Gracias por enviar el formulario')) {
+                      // Find and remove the hubspot-form-container element
+                      const formContainer = document.getElementById('hubspot-form-container');
+                      formContainer.style.display = 'none';
+
+                      // Call showRules when the message is found
+                      clickEventHandlerShowRules();
+                      observer.disconnect(); // Stop observing once the message is found
+                    }
+                  }
+                }
+              });
+
+              // Configure the observer to watch for changes within the iframe's document
+              observer.observe(iframeDoc.body, { childList: true, subtree: true });
+            }
+          }
+        }, 100);
+      }
+
+      const competitionRestart = document.getElementById('boomio-game-play-again');
+
       competitionRestart.addEventListener('click', clickEventHandlerResetGame);
     }
 
@@ -937,6 +1393,33 @@ ${new InputContainer(this.customer).createInputContainerDiv().outerHTML}
             new_highscore_stars.style.display = 'none';
 
             numbers.style.display = 'none';
+
+            if (this.gameStarted === false) {
+              if (
+                this.showCompetitiveRegistration === 'competition' ||
+                this.showCompetitiveRegistration === 'points' ||
+                this.showCompetitiveRegistration === 'collectable'
+              ) {
+                boomioService
+                  .signal('ROUND_STARTED', 'signal')
+                  .then((response) => {
+                    this.gameStarted = true;
+                  })
+                  .catch((error) => {
+                    console.error('Error:', error);
+                  });
+              }
+            }
+
+            setTimeout(() => {
+              canvas.onclick = () => {
+                this.flight = this.jump;
+                this.isJumping = true;
+                setTimeout(() => {
+                  this.isJumping = false;
+                }, 300);
+              };
+            }, 50);
             this.gamePlaying = true;
             document.getElementById('background_blur').style.display = 'none';
             const canvas = document.getElementById('flappy-canvas');
@@ -944,65 +1427,9 @@ ${new InputContainer(this.customer).createInputContainerDiv().outerHTML}
             canvas.style.filter = 'none';
 
             controlButton.style.opacity = 0;
-
-            setTimeout(() => {
-              canvas.onclick = () => {
-                if (this.gameStarted === false) {
-                  if (this.showCompetitiveRegistration) {
-                    boomioService
-                      .signal('ROUND_STARTED', 'signal')
-                      .then((response) => {})
-                      .catch((error) => {
-                        console.error('Error:', error);
-                      });
-                  }
-                }
-                this.flight = this.jump;
-                this.isJumping = true;
-                this.gameStarted = true;
-                setTimeout(() => {
-                  this.isJumping = false;
-                }, 300);
-              };
-            }, 50);
           };
           canvas.addEventListener('click', this.clickEventHandler);
         }
-
-        this.clickEventHandlerClaimButton = () => {
-          const inputContainer = document.querySelector('.input-container1');
-          inputContainer.style.transition = 'height 1s ease, top 1s ease, opacity 1s ease';
-          setTimeout(() => {
-            inputContainer.style.height = '10px';
-            inputContainer.style.top = 'calc(50% + 330px)';
-            inputContainer.style.opacity = 0;
-          }, 100);
-          setTimeout(() => {
-            inputContainer.style.display = 'none';
-          }, 400);
-
-          setTimeout(() => {
-            document.getElementById('useCuponImage').style.display = 'block';
-            document.getElementById('background_blur').style.transition = 'opacity 1s ease';
-            document.getElementById('ending_background').style.display = 'block';
-            document.getElementById('snow_background_qr').style.display = 'block';
-
-            setTimeout(() => {
-              document.getElementById('background_blur').style.opacity = 0;
-              document.getElementById('ending_background').style.transition = 'opacity 1s ease';
-              document.getElementById('ending_background').style.opacity = 1;
-
-              document.getElementById('snow_background_qr').style.transition = 'opacity 1s ease';
-              document.getElementById('snow_background_qr').style.opacity = 0.3;
-            }, 100);
-
-            this.gameEnded = true;
-            setTimeout(() => {
-              new QrCodeModal(true, this.discount);
-            }, 200);
-          }, 500);
-        };
-
         this.clickEventHandlerButton = () => {
           const controlButton = document.querySelector('.control-button1');
           const inputContainer = document.querySelector('.input-container1');
@@ -1046,16 +1473,8 @@ ${new InputContainer(this.customer).createInputContainerDiv().outerHTML}
       }
     });
 
-    const closeGame = () => {
-      const element = document.getElementById('boomio-flappy-container');
-      if (element && element.parentNode) {
-        this.gameClosed = true;
-        element.parentNode.removeChild(element);
-      }
-    };
-
     document.getElementById('close-game-container').addEventListener('click', () => {
-      closeGame();
+      this.closeGame();
     });
   };
 }

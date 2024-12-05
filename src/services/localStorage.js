@@ -12,7 +12,7 @@ class LocalStorageService {
     // localStorage.removeItem(localStoragePropertyName);
   }
 
-  сheckOnInstruction(content) {
+  checkOnInstruction(content) {
     if (content?.instruction === 'stop') {
       const boomioStopTill = new Date(new Date().getTime() + 1000 * content.stop_for_sec);
       this.updateConfig({ boomioStopTill });
@@ -47,7 +47,7 @@ class LocalStorageService {
       ...content,
     };
     localStorage.setItem(localStoragePropertyName, JSON.stringify(this.config));
-    this.сheckOnInstruction(content);
+    this.checkOnInstruction(content);
   }
 
   getDefaultConfig() {
@@ -70,7 +70,9 @@ class LocalStorageService {
       'To have immediate access for all your great rewards open or download ';
     const p_bottom_text_end_pc = config?.p_bottom_text_end_pc ?? 'Boomio app by scanning this code';
     const discountType = 'percentage';
-    const game_type = config?.game_type ?? 'point';
+    const game_type = config?.game_type ?? '';
+    const best_discount = config?.best_discount ?? 0;
+
     const p_bottom_text_start_m =
       config?.p_bottom_text_start_m ?? 'To have immediate access for all your great rewards ';
     const p_bottom_text_end_m = config?.p_bottom_text_end_m ?? 'open or download';
@@ -81,8 +83,16 @@ class LocalStorageService {
     const p_button_text = config?.p_button_text ?? null;
     /// //////////////////
     const p_coupon_text_line1 = config?.p_coupon_text_line1 ?? '???';
-    const business_name = config?.business_name ?? '';
-
+    const business_name =
+      config?.business_name === 'Gamtos Ateitis Random'
+        ? ['Gamtos Ateitis Glass', 'Gamtos Ateitis Plastic', 'Gamtos Ateitis Paper'][
+            Math.floor(Math.random() * 3)
+          ]
+        : config?.business_name ?? '';
+    const collection = config?.collection ?? [];
+    const collectables = config?.collectables ?? [];
+    const coupon_code = config?.coupon_code ?? '';
+    const just_won = config?.just_won ?? '';
     const p_coupon_text_line2 = config?.p_coupon_text_line2 ?? 'DISCOUNT';
     const p_button_text_line1 = config?.p_button_text_line1 ?? 'Open';
     const p_button_text_line2 = config?.p_button_text_line2 ?? 'boomio app';
@@ -108,8 +118,15 @@ class LocalStorageService {
     const widget_subtype = config?.subtype ?? false;
     const email_collection_required = config?.email_collection_required ?? false;
     const product = config?.product ?? '???';
-
+    const currentPageUrl = window.location.href;
+    const urlParams = new URL(currentPageUrl).searchParams;
+    const campaignUrl = urlParams.get('campaign_url');
+    const languageParam = urlParams.get('language');
+    const couponCodeNew = config?.coupon_code;
+    const language = config?.business_name === 'Pigu.lt' ? languageParam : config?.language ?? 'LT';
+    const userBestScore = config?.user_best_score ? config?.user_best_score : 0;
     return {
+      language,
       widget_subtype,
       success,
       qrcode,
@@ -135,6 +152,11 @@ class LocalStorageService {
       p_bottom_text_end_m,
       p_coupon_text_line1,
       p_coupon_text_line2,
+      just_won,
+      collection,
+      coupon_code,
+      collectables,
+      best_discount,
       p_button_text_line1,
       p_button_text_line2,
       business_name,
@@ -151,6 +173,9 @@ class LocalStorageService {
       p_code_text,
       product,
       game_type,
+      campaignUrl,
+      couponCodeNew,
+      userBestScore,
     };
   }
 }

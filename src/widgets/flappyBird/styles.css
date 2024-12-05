@@ -85,8 +85,21 @@
   opacity:0;
   z-index: 3;
 position: absolute;
-top : calc(50% - 280px);
+top : calc(50% - 290px);
 left :calc(50% - 110px);
+transform : translate(-50%, -50%);
+display:flex;
+flex-direction: column;
+}
+
+
+.boomio-time-input-container{
+  transition :opacity 0.8s ease;
+  opacity:0;
+  z-index: 3;
+position: absolute;
+top : calc(50% - 290px);
+left :calc(50% + 110px);
 transform : translate(-50%, -50%);
 display:flex;
 flex-direction: column;
@@ -96,7 +109,7 @@ flex-direction: column;
   z-index: 99999999999999999999999;
 position: absolute;
 top : calc(50% - 285px);
-left :calc(50% + 170px);
+left :calc(50% + 165px);
 transform : translate(-50%, -50%);
 display:flex;
 flex-direction: column;
@@ -155,24 +168,20 @@ cursor:pointer;
   z-index:10;
   overflow: hidden;
   margin-bottom: 160px;
-  margin-left: 20px;
   display:none; 
   position: absolute;
 }
 
 .numbers { 
-  text-shadow: 2px 0 #FF9161
-  , -2px 0 #FF9161, 0 2px #FF9161
-  , 0 -2px #FF9161,
-  1px 1px #FF9161, -1px -1px #FF9161, 1px -1px #FF9161, -1px 1px #FF9161;
   z-index: 3;
-  font-family: Georama;
+  font-family: Noto Sans;
   font-size: 44px;
   line-height: 1em;
   text-align: center;
   overflow: hidden;
   position: absolute;
   margin-bottom: 58px;
+  font-weight:700;
   margin-left: 80px;
   color:white;
   display:none;
@@ -235,7 +244,10 @@ cursor:pointer;
   animation-iteration-count: 5;  
   display:none;
 }
-
+.numbers__window__digit--6 {
+	animation-iteration-count: 5;  
+	display:none;
+  }
 .button_background{
   position: absolute;
   top:-10px;
@@ -244,6 +256,10 @@ cursor:pointer;
 
 .tutorial{
   display:none;
-  left:calc(50% - 130px);
   top:50%;
+}
+
+.hbspt-form{
+  max-height: 200px;
+  overflow: auto;
 }

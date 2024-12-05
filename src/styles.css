@@ -12,6 +12,7 @@
 }
 
 .game-container {
+    position:fixed;
     width: 100%;
     height: 100%;
     backdrop-filter: blur(10px); 
@@ -19,6 +20,14 @@
     display:flex;
     justify-content: center;
     align-items:center;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none; 
+    outline: none;
   }
 
 #boomio-widget-content .boomio-widget-screen-wrapper {
@@ -46,7 +55,9 @@
 .boomio--animation__wrapper {
     text-align: center;
     position: fixed;
-    z-index: 9999;
+    z-index: 999999999999999999;
+    left:0px;
+    top:0px;
     visibility: visible;
     background-size: cover;
     opacity: 1;
@@ -58,6 +69,8 @@
     -ms-user-select: none;
     user-select: none;
     font-family: 'Montserrat';
+    padding:0px;
+    margin:0px;
 }
 
 .boomio--animation--moveRight { animation-name: boomio-animate--moveRight; animation-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.28); }
@@ -349,7 +362,7 @@ h4.boomio--animation__heading {
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
-    padding: 23px;
+    padding: 18px;
     font-family: 'Montserrat';
 }
 
@@ -511,9 +524,7 @@ h4.boomio--animation__heading {
 }
 
 
-#boomio-widget-content div:empty {
-    display: block !important;
-}
+
 #boomio-widget-content iframe:empty {
     display: block !important;
 }
@@ -532,7 +543,7 @@ h4.boomio--animation__heading {
     font-size: 16px;
     background: linear-gradient(39.06deg, #8559F3 8.58%, #657BEA 17.79%, #34B0DC 46.68%, #15D1D3 72.63%, #09DDD0 88.95%);
     border-radius: 32px;
-    width: 116px;
+    width: 130px;
     height: 40px;
     color: #FFFFFF;
     flex: none;
@@ -673,6 +684,3 @@ h4.boomio--animation__heading {
 }
 
 
-.boomio--animation__wrapper {
-    outline: none !important;
-}

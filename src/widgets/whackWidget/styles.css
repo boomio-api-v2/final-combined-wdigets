@@ -1,5 +1,8 @@
-.game-container {
+.game-container-whack {
   position: fixed;
+  display:flex;
+  justify-content: center;
+  align-items:center;
 }
 
 .boomio-mole {

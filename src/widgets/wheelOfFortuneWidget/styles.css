@@ -8,14 +8,14 @@
     display: inline-flex;
     position: fixed;
     overflow: initial;
-    z-index: 9999999999;
+    z-index: 99999;
 }
 
 .boomio-picture {
     position: fixed;
     width: 350px;
     height: 350px;
-    z-index: 9999999999;
+    z-index: 99999;
     overflow: hidden;
 }
 

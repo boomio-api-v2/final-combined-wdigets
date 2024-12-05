@@ -1,0 +1,295 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Georama:wght@100;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Londrina+Solid:wght@100;300;400;500;600;700;800;900&display=swap');
+
+
+
+
+
+.gradient-border {
+  width: 142px;
+  left: 46px;
+  top: 116px;
+  position: absolute;
+  color: white;
+  font-size: 18px;
+  font-family: Georama;
+  font-weight: 800;
+  line-height: 27px;
+  word-wrap: break-word;
+  text-align: start;
+}
+
+
+
+.boomio-colored_box {
+ height: 126px; left: 20px; top: 100px; 
+ background: rgba(255, 255, 255, 0.40); 
+ border-radius: 20px;  
+  position: relative;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* .boomio-colored_box::after {
+  position: absolute;
+  top: -2px; bottom: -2px;
+  left: -2px; right: -2px;
+  background: linear-gradient(40.93deg, #FF3183 -4.42%, #FF6E6D 12.31%, #8559F3 75.67%, #657BEA 92.91%);
+  content: '';
+  z-index: -1;
+  border-radius: 16px;
+} */
+
+.game_over{
+  font-family: 'Georama';
+}
+
+
+
+.startButton{
+  /* cursor: url(https://i.ibb.co/y4ZQJS3/Cursor-2-1.png) 10 10, auto; */
+}
+
+.input-container{
+  /* cursor: url(https://i.ibb.co/y4ZQJS3/Cursor-2-1.png) 10 10, auto; */
+
+}
+
+
+.intro-screen{
+  z-index: 99999;
+}
+
+
+.score-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 6px;
+  background: #5EE270;
+}
+
+
+
+
+.boomio-score-input-container{
+  transition :opacity 0.8s ease;
+  opacity:0;
+  z-index: 3;
+position: absolute;
+top : calc(50% - 290px);
+left :calc(50% - 120px);
+transform : translate(-50%, -50%);
+display:flex;
+flex-direction: column;
+}
+
+
+@media (max-width: 400px) {
+  .boomio-score-input-container{
+    transition :opacity 0.8s ease;
+    opacity:0;
+    z-index: 3;
+  position: absolute;
+  left :calc(50% - 80px);
+  transform : translate(-50%, -50%);
+  display:flex;
+  flex-direction: column;
+  }
+}
+
+@media (max-height: 600px) {
+  .boomio-score-input-container{
+    top : calc(50% - 240px);
+
+  }
+}
+
+
+
+.boomio-life-input-container{
+  transition :opacity 0.8s ease;
+  opacity:0;
+  z-index: 3;
+position: absolute;
+top : calc(50% - 290px);
+left :calc(50% + 130px);
+transform : translate(-50%, -50%);
+display:flex;
+flex-direction: column;
+}
+
+.close-game-container{
+  z-index: 99999999999999999999999;
+position: absolute;
+top : calc(50% - 285px);
+left :calc(50% + 165px);
+transform : translate(-50%, -50%);
+display:flex;
+flex-direction: column;
+cursor:pointer;
+}
+
+.input-container{
+  overflow: hidden;
+  position: absolute;
+  left :50%;
+  transform : translate(-50%, -50%);
+  flex-direction: column;
+  border-top-left-radius:20px;
+  border-top-right-radius:20px;
+  z-index: 2;  height :10px;
+  top :calc(50% + 330px);
+  opacity: 0;
+  display: none;
+  }
+
+  .input-container1{
+    overflow: hidden;
+    position: absolute;
+    top : calc(50% + 330px);
+    left :50%;
+    height:10px;
+    transform : translate(-50%, -50%);
+    display:none;
+    flex-direction: column;
+    border-top-left-radius:20px;
+    border-top-right-radius:20px;z-index: 2;
+    }
+
+
+.closing {
+  height: 10; /* Reduce the height to 0 for disappearing effect */
+  top: calc(50% + 335px);
+  transition: height 1s ease, top 1s ease; /* Adjust the duration and timing function as needed */
+}
+
+.control-button{
+  opacity: 0;
+  position:absolute;
+  display:none;
+}
+
+.control-button1{
+  position:absolute;
+  margin-top: 300px;
+  display:none;
+}
+
+
+.new_highscore {
+  width:260px;
+  z-index:10;
+  overflow: hidden;
+  margin-bottom: 160px;
+  display:none; 
+  position: absolute;
+}
+
+.numbers { 
+  z-index: 3;
+  font-family: Noto Sans;
+  font-size: 44px;
+  line-height: 1em;
+  text-align: center;
+  overflow: hidden;
+  position: absolute;
+  margin-bottom: 58px;
+  font-weight:700;
+  margin-left: 80px;
+  color:white;
+  display:none;
+}
+
+.numbers__window {
+  display: inline-block;
+  overflow: hidden;
+  width: 30px;
+  height: 1em;  
+
+}
+
+.numbers__window__digit {
+  font-family: Georama;
+  word-break: break-all;
+  display: block;
+  width: 30px;
+  padding: 0 0.52em 0 0;
+  margin: 0 auto;
+  overflow: inherit;
+  animation:counting 0.07s steps(10) forwards infinite;
+}
+
+
+.numbers__window__digit::before {
+  content: attr(data-fake);
+  display: inline-block;
+  width: 100%;
+  height: auto;
+}
+
+.boomio-counting-animation {
+  /* animation: counting 0.1s steps(8) forwards infinite; */
+}
+
+@keyframes counting {
+  100% {
+    transform: translate3d(0, -10em, 0);
+  }
+}
+
+.numbers__window__digit--1 {
+  animation-iteration-count: 25;
+  display:none;
+}
+.numbers__window__digit--2 {
+  animation-iteration-count: 20; 
+   display:none;
+}
+.numbers__window__digit--3 {
+  animation-iteration-count: 15; 
+   display:none;
+}
+.numbers__window__digit--4 {
+  animation-iteration-count: 10;  
+  display:none;
+}
+.numbers__window__digit--5 {
+  animation-iteration-count: 5;  
+  display:none;
+}
+.numbers__window__digit--6 {
+	animation-iteration-count: 5;  
+	display:none;
+  }
+.button_background{
+  position: absolute;
+  top:-10px;
+  left:-10px;
+}
+
+.tutorial{
+  display:none;
+  top:50%;
+}
+
+@keyframes floatScore {
+  0% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+}
+
+.float-score {
+  position: absolute;
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+  pointer-events: none;
+  animation: floatScore 1s ease-in-out forwards;
+  z-index: 9999;
+}

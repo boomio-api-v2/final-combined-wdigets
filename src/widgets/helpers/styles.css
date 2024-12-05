@@ -1,5 +1,56 @@
 @import url('https://fonts.googleapis.com/css2?family=Londrina+Solid:wght@100;300;400;500;600;700;800;900&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;300;400;500;600;700;800;900&display=swap');
+
+
+.ikea-bold {
+  font-family: 'NotoIKEALatin';
+  font-weight: bold;
+  font-style: normal;
+}
+
+.ikea-bold-italic {
+  font-family: 'NotoIKEALatin';
+  font-weight: bold;
+  font-style: italic;
+}
+
+.ikea-italic {
+  font-family: 'NotoIKEALatin';
+  font-weight: normal;
+  font-style: italic;
+}
+
+.ikea-regular {
+  font-family: 'NotoIKEALatin';
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+
+.image-container-text {
+  display: none; /* Initially hidden */
+  color: #fff;
+  text-align: center;
+  margin-top: 10px;
+  font-size:5px;
+  margin-top:245px;
+  text-decoration: underline;
+  font-weight:800;
+
+}
+
+
+.enlarge-image {
+  box-sizing: content-box;
+  padding-top:30px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.9);
+  z-index: 9999; /* Ensure the enlarged image is on top of other elements */
+}
 .input-register-container{
     overflow: hidden;
     position: absolute;
@@ -29,6 +80,73 @@
         display: none;
         ;
         }
+        .competition-table-container-pigu{
+          overflow: hidden;
+          position: absolute;
+          left :50%;
+          transform : translate(-50%, -50%);
+          flex-direction: column;
+   
+          z-index: 3;  
+          height :0px;
+          top :calc(50% + 330px);
+          opacity: 0;
+          display: none;
+          ;
+          }
+
+          .rules-table-container{
+            overflow: hidden;
+            position: absolute;
+            left :50%;
+            transform : translate(-50%, -50%);
+            flex-direction: column;
+            z-index: 99999999999;  
+            height :0px;
+            top :calc(50% + 330px);
+            opacity: 0;
+            display: none;
+            }
+            .rules-table-container-pigu{
+              overflow: hidden;
+              position: absolute;
+              left :50%;
+              transform : translate(-50%, -50%);
+              flex-direction: column;
+              z-index: 99999999999;  
+              height :0px;
+              top :calc(50% + 330px);
+              opacity: 0;
+              display: none;
+              }
+        .did-you-know-container{
+          overflow: hidden;
+          position: absolute;
+          left :50%;
+          transform : translate(-50%, -50%);
+          flex-direction: column;
+   
+          z-index: 3;  
+          height :0px;
+          top :calc(50% + 330px);
+          opacity: 1;
+          ;
+          }
+
+        .collection-table-container{
+          overflow: hidden;
+          position: absolute;
+          left :50%;
+          transform : translate(-50%, -50%);
+          flex-direction: column;
+          z-index: 3;  
+          height :680px;
+          top :calc(50%);
+          opacity: 1;
+          /* display: none; */
+          ;
+          }
+      
     
 
         .boomio-competition-email-input-field:focus {
@@ -49,6 +167,13 @@
         font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
       }
 
+      .boomio-competition-phone-input-field:focus {
+        outline: none; /* Remove default focus outline */
+        border-color: transparent; /* Change border color on focus */
+      }
+      .boomio-competition-phone-input-field:placeholder {
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      }
     .boomio-custom-scrollbar::-webkit-scrollbar {
         padding-top: 10px;
         padding-bottom: 10px;
@@ -68,6 +193,29 @@
 
       .boomio-custom-scrollbar::-webkit-scrollbar-thumb:hover {
         background: rgba(61, 73, 40, 1);        border-radius: 20px;
+
+      }
+
+
+      .boomio-custom-scrollbar-rules::-webkit-scrollbar {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 8px;        border-radius: 20px;
+
+      }
+      
+      .boomio-custom-scrollbar-rules::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 20px;
+      }
+      
+      .boomio-custom-scrollbar-rules::-webkit-scrollbar-thumb {
+        background: black;        border-radius: 20px;
+
+      }
+
+      .boomio-custom-scrollbar-rules::-webkit-scrollbar-thumb:hover {
+        background: black;        border-radius: 20px;
 
       }
 
@@ -97,7 +245,30 @@
   font-weight: 500;
     font-family: Georama;
 }
-
+.boomio-competition-phone-input-field::-webkit-input-placeholder {      color: rgba(61, 73, 40, 1);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  font-family: Georama;
+}
+.boomio-competition-phone-input-field:-moz-placeholder {      color: rgba(61, 73, 40, 1);
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+  font-family: Georama;
+}
+.boomio-competition-phone-input-field::-moz-placeholder {      color: rgba(61, 73, 40, 1);
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+  font-family: Georama;
+}
+.boomio-competition-phone-input-field:-ms-input-placeholder {      color: rgba(61, 73, 40, 1);
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+  font-family: Georama;
+}
   .boomio-competition-email-input-field::-webkit-input-placeholder {      color: rgba(61, 73, 40, 1);
     font-size: 16px;
     font-style: normal;
@@ -122,3 +293,14 @@
   font-weight: 500;
     font-family: Georama;
 }
+
+.close-rules-container{
+	z-index: 99999999999999999999999;
+  position: absolute;
+  top : calc(50% - 225px);
+  left :calc(50% + 155px);
+  transform : translate(-50%, -50%);
+  display:flex;
+  flex-direction: column;
+  cursor:pointer;
+  }

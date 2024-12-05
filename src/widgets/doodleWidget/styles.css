@@ -66,7 +66,6 @@
 .boomio-doodle-button {
 	width: 105px;
 	height: 31px;
-	background: url(https://i.ibb.co/ryHgk6B/JUMP-UP-2-1.png) 0 0 no-repeat;
 	display: block;
 	color:  #000;
 	font-size: 12px;
@@ -86,29 +85,32 @@
 .boomio-doodle-info .boomio-doodle-key {
 	width: 16px;
 	height: 16px;
-	background: url(https://i.ibb.co/ryHgk6B/JUMP-UP-2-1.png) no-repeat;
 	text-indent: -9999px;
 	display: inline-block;
 }
 
 .boomio-doodle-info .boomio-doodle-key.left {background-position: -92px -621px;}
 .boomio-doodle-info .boomio-doodle-key.right {background-position: -92px -641px;}
-
+.close-game-container{
+	z-index: 99999999999999999999999;
+  position: absolute;
+  top : calc(50% - 285px);
+  left :calc(50% + 165px);
+  transform : translate(-50%, -50%);
+  display:flex;
+  flex-direction: column;
+  cursor:pointer;
+  }
 
 .numbers { 
-	text-shadow: 2px 0 #FF9161
-	, -2px 0 #FF9161, 0 2px #FF9161
-	, 0 -2px #FF9161,
-	1px 1px #FF9161, -1px -1px #FF9161, 1px -1px #FF9161, -1px 1px #FF9161;
 	z-index: 3;
-	font-family: Oswald;
+	font-family: Noto Sans;
 	font-size: 44px;
 	line-height: 1em;
 	text-align: center;
 	overflow: hidden;
 	position: absolute;
-	margin-bottom: 58px;
-	margin-left: 80px;
+	margin-bottom: 58px;  font-weight:700;
 	color:white;
 	display:none;
   }
@@ -151,22 +153,26 @@
   }
   
   .numbers__window__digit--1 {
-	animation-iteration-count: 25;
+	animation-iteration-count: 30;
 	display:none;
   }
   .numbers__window__digit--2 {
-	animation-iteration-count: 20; 
+	animation-iteration-count: 25; 
 	 display:none;
   }
   .numbers__window__digit--3 {
-	animation-iteration-count: 15; 
+	animation-iteration-count: 20; 
 	 display:none;
   }
   .numbers__window__digit--4 {
-	animation-iteration-count: 10;  
+	animation-iteration-count: 15;  
 	display:none;
   }
   .numbers__window__digit--5 {
+	animation-iteration-count: 10;  
+	display:none;
+  }
+  .numbers__window__digit--6 {
 	animation-iteration-count: 5;  
 	display:none;
   }
